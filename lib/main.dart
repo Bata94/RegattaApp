@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:regatta_app/provider/auth.dart';
-import 'package:regatta_app/provider/user.dart';
+import 'package:regatta_app/screens/admin/index.dart';
+import 'package:regatta_app/screens/admin/theme_show.dart';
+import 'package:regatta_app/screens/buero/index.dart';
+import 'package:regatta_app/screens/ergebnisse/index.dart';
 import 'package:regatta_app/screens/home.dart';
+import 'package:regatta_app/screens/leiter/index.dart';
 import 'package:regatta_app/screens/login.dart';
-import 'package:regatta_app/screens/welcome.dart';
+import 'package:regatta_app/screens/startlisten/index.dart';
+import 'package:regatta_app/screens/zeitnahme/index.dart';
 import 'package:regatta_app/services/shared_preference.dart';
 
 void main() async {
@@ -21,7 +26,6 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => AuthProvider()),
-        ChangeNotifierProvider(create: (_) => UserProvider()),
       ],
       child: MaterialApp(
         title: 'MRG Regatta App',
@@ -32,6 +36,7 @@ class MyApp extends StatelessWidget {
           ),
           useMaterial3: true,
         ),
+        debugShowCheckedModeBanner: false,
         home: FutureBuilder(
           future: UserPreferences().getUser(),
           builder: (context, snapshot) {
@@ -45,14 +50,29 @@ class MyApp extends StatelessWidget {
                 } else if (snapshot.data == null) {
                   return const Login();
                 } else {
-                  UserPreferences().removeUser();
-                  return Welcome(user: snapshot.data!);
+                  // TODO: Validate Token!
+                  return const Home();
+                  // UserPreferences().removeUser();
+                  // return Welcome(user: snapshot.data!);
                 }
             }
         }),
         routes: {
           '/home': (context) => const Home(),
           '/login': (context) => const Login(),
+
+          '/zeitnahme': (context) => const ZeitnahmeIndex(),
+
+          '/startlisten': (context) => const StartlistenIndex(),
+
+          '/ergebnisse': (context) => const ErgebnisseIndex(),
+
+          '/leitung': (context) => const LeitungIndex(),
+
+          '/buero': (context) => const BueroIndex(),
+
+          '/admin': (context) => const AdminIndex(),
+          '/admin/themeshow': (context) => const ThemeShowCase(),
         },
       ),
     );

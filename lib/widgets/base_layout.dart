@@ -11,7 +11,6 @@ class BaseLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: NavBar(
-        Key(title.toLowerCase()),
         context,
         title: title,
       ),

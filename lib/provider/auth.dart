@@ -1,9 +1,7 @@
 // ignore_for_file: constant_identifier_names
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 
 import 'package:regatta_app/services/api_request.dart';
 import 'package:regatta_app/models/user.dart';
@@ -20,53 +18,58 @@ enum Status {
 
 class AuthProvider with ChangeNotifier {
   Status _loggedInStatus = Status.NotLoggedIn;
-
   Status get loggedInStatus => _loggedInStatus;
+  
+  User? _user;
+  User? get user => _user;
 
+  void setUser(User user) {
+    _user = user;
+    notifyListeners();
+  }
 
-  Future<Map<String, dynamic>> login(String username, String password) async {
-    Map<String, dynamic> result;
+  void unsetUser() {
+    _user = null;
+    notifyListeners();
+  }
 
-    final loginJson = json.encode({
+  Future<bool> login(String username, String password) async {
+    final Map<String, dynamic> loginJson = {
       'username': username,
       'password': password
-    });
+    };
 
     _loggedInStatus = Status.Authenticating;
     notifyListeners();
 
-    Response response = await post(
-      Uri.parse(ApiUrl.login),
+    ApiResponse res = await ApiRequester(baseUrl: ApiUrl.login).post(
       body: loginJson,
-      headers: {'Content-Type': 'application/json'},
     );
 
-    debugPrint(response.statusCode.toString());
-    debugPrint(response.headers.toString());
-    debugPrint(response.body.toString());
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> responseData = json.decode(response.body);
-
-      User authUser = User.fromJson(responseData);
-
+    if (res.statusCode == 200) {
+      User authUser = User.fromJson(res.data);
       UserPreferences().saveUser(authUser);
 
       _loggedInStatus = Status.LoggedIn;
+      _user = User.fromJson(res.data);
       notifyListeners();
-
-      result = {'status': true, 'message': 'Successful', 'user': authUser};
     } else {
       _loggedInStatus = Status.NotLoggedIn;
       notifyListeners();
-      result = {
-        'status': false,
-        'message': json.decode(response.body)['error']
-      };
     }
-    return result;
+    return res.status;
   }
 
-  static onError(error) {
-    return {'status': false, 'message': 'Unsuccessful Request', 'data': error};
+  Future<bool> logout() async {
+    ApiResponse res = await ApiRequester(baseUrl: ApiUrl.logout).post();
+
+    if (res.status) {
+      UserPreferences().removeUser();
+      _user = null;
+      _loggedInStatus = Status.NotLoggedIn;
+      notifyListeners();
+    }
+
+    return res.status;
   }
 }

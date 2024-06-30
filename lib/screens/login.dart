@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:regatta_app/models/user.dart';
 import 'package:regatta_app/provider/auth.dart';
-import 'package:regatta_app/provider/user.dart';
 import 'package:regatta_app/widgets/base_layout.dart';
 
 class Login extends StatefulWidget {
@@ -57,13 +55,11 @@ class _LoginState extends State<Login> {
     final FormState form = formKey.currentState!;
     form.save();
 
-    final Future<Map<String, dynamic>> successfulMessage =
+    final Future<bool> successfulMessage =
       auth.login(_username, _password);
 
     successfulMessage.then((response) {
-      if (response['status']) {
-        User user = response['user'];
-        Provider.of<UserProvider>(context, listen: false).setUser(user);
+      if (response) {
         Navigator.pushReplacementNamed(context, '/home');
       } else {
         debugPrint("Failed Login: $response");

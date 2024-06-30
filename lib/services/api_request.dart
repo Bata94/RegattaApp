@@ -1,9 +1,129 @@
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
+import 'package:regatta_app/models/user.dart';
+import 'package:regatta_app/services/shared_preference.dart';
+
 class ApiUrl {
   static const localUrl = "http://192.168.80.20:8080/api/v1";
 
   static const baseUrl = localUrl;
 
   static const login = "$baseUrl/auth/login";
+  static const logout = "$baseUrl/auth/logout";
 
   static const rennenAll = "$baseUrl/rennen";
+}
+
+class ApiResponse {
+  bool status;
+  int statusCode;
+  int code;
+  String error;
+  String msg;
+  Map<String, dynamic> data;
+
+  ApiResponse({
+    required this.status,
+    required this.statusCode,
+    required this.code,
+    this.error = "",
+    this.msg = "",
+    this.data = const {},
+  });
+}
+
+class ApiRequester{
+  String baseUrl;
+  Map<String, dynamic>? headers;
+  bool securedEndpoint;
+
+  ApiRequester({
+    required this.baseUrl,
+    this.securedEndpoint = true,
+  });
+
+  Future<Map<String, String>> setHeaders() async {
+    Map<String, String> baseHeaders = {
+      'Content-Type': 'application/json',
+    };
+
+    if (securedEndpoint) {
+      User user = await UserPreferences().getUser() ?? User(ulid: "", username: "", jwt: "");
+      baseHeaders['Authorization'] = 'Bearer ${user.jwt}';
+    }
+
+    if (headers != null) {
+      headers!.forEach((key, value) {baseHeaders[key] = value.toString();});
+    }
+
+    return baseHeaders;
+  }
+
+  ApiResponse parseApiResponse(http.Response res) {
+    Map<String, dynamic> body;
+    try {
+      body = json.decode(res.body);
+    } catch (e) {
+      body = {"msg": res.body};
+    }
+
+    if (res.statusCode == 200) {
+      return ApiResponse(status: true, statusCode: res.statusCode, code: res.statusCode, data: body);
+    } else {
+      return ApiResponse(status: false, statusCode: res.statusCode, code: body['code'], error: body['error'], msg: body['msg'], data: body);
+    }
+  }
+  
+  ApiResponse connectionError(Object e) {
+    return ApiResponse(status: false, statusCode: 999, code: 999, error: "Failed to connect to server!", msg: e.toString(),);
+  }
+
+  Future<ApiResponse> get({String? param, Map<String, dynamic>? queryParams}) async {
+    String getUrl = baseUrl;
+    Uri uri;
+    http.Response res;
+
+    if (param != null) {
+      getUrl += "/$param";
+    }
+    if (queryParams != null) {
+      getUrl += "?";
+      queryParams.forEach((key, value) {getUrl += "$key=$value&";});
+      getUrl = getUrl.substring(0, getUrl.length - 1);
+    }
+
+    uri = Uri.parse(getUrl);
+    Map<String, String> reqHeaders = await setHeaders();
+
+    try {
+      res = await http.get(
+        uri,
+        headers: reqHeaders,
+      );
+    } catch (e) {
+      return connectionError(e);
+    }
+
+    return parseApiResponse(res);
+  }
+  
+  Future<ApiResponse> post({Map<String, dynamic> body = const {}}) async {
+    Uri uri = Uri.parse(baseUrl);
+    http.Response res;
+
+    Map<String, String> reqHeaders = await setHeaders();
+
+    try {
+      res = await http.post(
+        uri,
+        body: json.encode(body),
+        headers: reqHeaders,
+      );
+    } catch (e) {
+      return connectionError(e);
+    }
+
+    return parseApiResponse(res);
+  }
 }
