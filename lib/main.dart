@@ -9,6 +9,7 @@ import 'package:regatta_app/screens/ergebnisse/index.dart';
 import 'package:regatta_app/screens/home.dart';
 import 'package:regatta_app/screens/leiter/drv_upload.dart';
 import 'package:regatta_app/screens/leiter/index.dart';
+import 'package:regatta_app/screens/leiter/setzungslosung.dart';
 import 'package:regatta_app/screens/login.dart';
 import 'package:regatta_app/screens/startlisten/index.dart';
 import 'package:regatta_app/screens/zeitnahme/index.dart';
@@ -70,6 +71,7 @@ class MyApp extends StatelessWidget {
 
           '/leitung': (context) => const LeitungIndex(),
           '/leitung/drvupload': (context) => const DrvUpload(),
+          '/leitung/setzungslosung': (context) => const Setzungslosung(),
 
           '/buero': (context) => const BueroIndex(),
 
