@@ -16,6 +16,9 @@ class ApiUrl {
   static const rennenAll = "$baseUrl/rennen";
 
   static const drvMeldUpload = "$baseUrl/leitung/drv_meldung_upload";
+  static const setzungsLosung = "$baseUrl/leitung/setzungslosung";
+  static const setzungsLosungReset = "$baseUrl/leitung/setzungslosung/reset";
+  static const setZeitplan = "$baseUrl/leitung/setzeiplan";
 }
 
 class ApiResponse {
@@ -66,15 +69,21 @@ class ApiRequester{
   ApiResponse parseApiResponse(http.Response res) {
     Map<String, dynamic> body;
     try {
-      body = json.decode(res.body);
+      body = json.decode(utf8.decode(res.bodyBytes));
     } catch (e) {
-      body = {"msg": res.body};
+      String msg = utf8.decode(res.bodyBytes);
+      msg = msg.substring(1, msg.length - 1);
+      body = {"msg": msg};
     }
 
-    if (res.statusCode == 200) {
-      return ApiResponse(status: true, statusCode: res.statusCode, code: res.statusCode, data: body);
-    } else {
-      return ApiResponse(status: false, statusCode: res.statusCode, code: body['code'], error: body['error'], msg: body['msg'], data: body);
+    try {
+      if (res.statusCode == 200) {
+        return ApiResponse(status: true, statusCode: res.statusCode, code: res.statusCode, data: body);
+      } else {
+        return ApiResponse(status: false, statusCode: res.statusCode, code: body['code'], error: body['error'], msg: body['message'], data: body);
+      }
+    } catch (e) {
+      return ApiResponse(status: false, statusCode: 999, code: 999, error: "Failed to parse Response!", msg: "$e\n${res.statusCode} - ${res.body}",);
     }
   }
   
