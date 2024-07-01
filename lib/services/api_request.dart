@@ -6,19 +6,21 @@ import 'package:regatta_app/models/user.dart';
 import 'package:regatta_app/services/shared_preference.dart';
 
 class ApiUrl {
-  static const localUrl = "http://192.168.80.20:8080/api/v1";
+  static const localUrl = "http://192.168.80.20:8080/api";
 
   static const baseUrl = localUrl;
 
   static const login = "$baseUrl/auth/login";
   static const logout = "$baseUrl/auth/logout";
 
-  static const rennenAll = "$baseUrl/rennen";
+  static const v1Url = "$baseUrl/v1";
 
-  static const drvMeldUpload = "$baseUrl/leitung/drv_meldung_upload";
-  static const setzungsLosung = "$baseUrl/leitung/setzungslosung";
-  static const setzungsLosungReset = "$baseUrl/leitung/setzungslosung/reset";
-  static const setZeitplan = "$baseUrl/leitung/setzeiplan";
+  static const rennenAll = "$v1Url/rennen";
+
+  static const drvMeldUpload = "$v1Url/leitung/drv_meldung_upload";
+  static const setzungsLosung = "$v1Url/leitung/setzungslosung";
+  static const setzungsLosungReset = "$v1Url/leitung/setzungslosung/reset";
+  static const setZeitplan = "$v1Url/leitung/setzeiplan";
 }
 
 class ApiResponse {
