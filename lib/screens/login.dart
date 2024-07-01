@@ -16,12 +16,24 @@ class _LoginState extends State<Login> {
   String _username = "";
   String _password = "";
 
-  Widget textField(String label, void Function(String?) onSaved, {bool obscureText=false}) {
+  Widget textField(String labelStr, IconData icon, void Function(String?) onSaved, {bool obscureText=false}) {
+    Widget label = Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Icon(icon),
+        const SizedBox(width: 8,),
+        Text(
+          labelStr,
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+      ],
+    );
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label),
+        label,
         TextFormField(
           autofocus: false,
           obscureText: obscureText,
@@ -80,25 +92,37 @@ class _LoginState extends State<Login> {
       "Login",
       Center(
         child: SizedBox(
-          height: 300,
-          width: 300,
-          child: Form(
-            key: formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                textField(
-                  "Username:",
-                  (val) => _username = val ?? "",
+          height: 400,
+          width: 320,
+          child: Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Form(
+                key: formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      "assets/icons/mrg_logo.png",
+                      width: 80,
+                      height: 80,
+                    ),
+                    textField(
+                      "Username:",
+                      Icons.person,
+                      (val) => _username = val ?? "",
+                    ),
+                    textField(
+                      "Password:",
+                      Icons.key,
+                      (val) => _password = val ?? "",
+                      obscureText: true,
+                    ),
+                    loginBtn(authProv)
+                  ],
                 ),
-                textField(
-                  "Password:",
-                  (val) => _password = val ?? "",
-                  obscureText: true,
-                ),
-                loginBtn(authProv)
-              ],
+              ),
             ),
           ),
         ),

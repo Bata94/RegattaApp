@@ -43,6 +43,7 @@ class NavBar extends AppBar {
 
               // ignore: use_build_context_synchronously
               Navigator.popUntil(context, ModalRoute.withName('/home'));
+              await Future.delayed(const Duration(milliseconds: 10));
               // ignore: use_build_context_synchronously
               Navigator.of(context).pushReplacementNamed('/login');
             }
