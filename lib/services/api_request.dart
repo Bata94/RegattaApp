@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:regatta_app/models/user.dart';
@@ -13,6 +14,8 @@ class ApiUrl {
   static const logout = "$baseUrl/auth/logout";
 
   static const rennenAll = "$baseUrl/rennen";
+
+  static const drvMeldUpload = "$baseUrl/leitung/drv_meldung_upload";
 }
 
 class ApiResponse {
@@ -120,6 +123,26 @@ class ApiRequester{
         body: json.encode(body),
         headers: reqHeaders,
       );
+    } catch (e) {
+      return connectionError(e);
+    }
+
+    return parseApiResponse(res);
+  }
+
+  Future<ApiResponse> uploadFile(File file) async {
+    Uri uri = Uri.parse(baseUrl);
+    http.Response res;
+    http.StreamedResponse streamRes;
+
+    Map<String, String> reqHeaders = await setHeaders();
+    reqHeaders['Content-Type'] = 'multipart/form-data';
+    http.MultipartRequest req = http.MultipartRequest("POST", uri)
+      ..files.add(await http.MultipartFile.fromPath("file", file.path));
+
+    try {
+      streamRes = await req.send(); 
+      res = await http.Response.fromStream(streamRes);
     } catch (e) {
       return connectionError(e);
     }
