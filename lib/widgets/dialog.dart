@@ -24,7 +24,7 @@ void dialogLoading(BuildContext context) {
   );
 }
 
-void dialogOkay(BuildContext context, String message, {String title = "Okay"}) {
+void dialogOkay(BuildContext context, dynamic message, {String title = "Okay"}) {
   TextTheme txtTheme = Theme.of(context).textTheme;
 
   showDialog(
@@ -38,7 +38,7 @@ void dialogOkay(BuildContext context, String message, {String title = "Okay"}) {
         content: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
-            message,
+            message.toString(),
             softWrap: true,
             maxLines: 10,
             overflow: TextOverflow.ellipsis,

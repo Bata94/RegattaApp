@@ -3,7 +3,6 @@ import 'package:regatta_app/widgets/base_layout.dart';
 import 'package:regatta_app/widgets/layout_grid.dart';
 import 'package:regatta_app/widgets/nav_btn.dart';
 
-
 class Home extends StatelessWidget {
   const Home({super.key});
 

@@ -15,12 +15,13 @@ class ApiUrl {
 
   static const v1Url = "$baseUrl/v1";
 
-  static const rennenAll = "$v1Url/rennen";
+  static const rennen = "$v1Url/rennen";
 
   static const drvMeldUpload = "$v1Url/leitung/drv_meldung_upload";
   static const setzungsLosung = "$v1Url/leitung/setzungslosung";
   static const setzungsLosungReset = "$v1Url/leitung/setzungslosung/reset";
-  static const setZeitplan = "$v1Url/leitung/setzeiplan";
+  static const setZeitplan = "$v1Url/leitung/setzeitplan";
+  static const setStartnummern = "$v1Url/leitung/setstartnummern";
 }
 
 class ApiResponse {
@@ -29,7 +30,7 @@ class ApiResponse {
   int code;
   String error;
   String msg;
-  Map<String, dynamic> data;
+  dynamic data;
 
   ApiResponse({
     required this.status,
@@ -45,10 +46,12 @@ class ApiRequester{
   String baseUrl;
   Map<String, dynamic>? headers;
   bool securedEndpoint;
+  int timeoutSec;
 
   ApiRequester({
     required this.baseUrl,
     this.securedEndpoint = true,
+    this.timeoutSec = 30,
   });
 
   Future<Map<String, String>> setHeaders() async {
@@ -69,7 +72,7 @@ class ApiRequester{
   }
 
   ApiResponse parseApiResponse(http.Response res) {
-    Map<String, dynamic> body;
+    dynamic body;
     try {
       body = json.decode(utf8.decode(res.bodyBytes));
     } catch (e) {
@@ -114,7 +117,7 @@ class ApiRequester{
       res = await http.get(
         uri,
         headers: reqHeaders,
-      );
+      ).timeout(Duration(seconds: timeoutSec));
     } catch (e) {
       return connectionError(e);
     }
@@ -127,13 +130,14 @@ class ApiRequester{
     http.Response res;
 
     Map<String, String> reqHeaders = await setHeaders();
+    var bodyEnc = jsonEncode(body);
 
     try {
       res = await http.post(
         uri,
-        body: json.encode(body),
+        body: bodyEnc,
         headers: reqHeaders,
-      );
+      ).timeout(Duration(seconds: timeoutSec));
     } catch (e) {
       return connectionError(e);
     }

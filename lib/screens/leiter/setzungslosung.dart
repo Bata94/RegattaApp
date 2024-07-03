@@ -25,7 +25,7 @@ class Setzungslosung extends StatelessWidget {
     await Future.delayed(const Duration(milliseconds: 50));
 
     if (res.status) {
-      dialogOkay(context, res.data["msg"]);
+      dialogOkay(context, res.data);
     } else {
       dialogError(context, res);
     }
@@ -48,7 +48,7 @@ class Setzungslosung extends StatelessWidget {
     await Future.delayed(const Duration(milliseconds: 50));
 
     if (res.status) {
-      dialogOkay(context, res.data["msg"]);
+      dialogOkay(context, res.data);
     } else {
       dialogError(context, res);
     }
@@ -68,7 +68,7 @@ class Setzungslosung extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Nur ein einmal ausführen!",
+                  "Nur einmal ausführen!",
                   style: Theme.of(context).textTheme.titleSmall,
                 ),
                 Row(

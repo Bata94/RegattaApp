@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:regatta_app/provider/auth.dart';
+import 'package:regatta_app/services/api_request.dart';
 import 'package:regatta_app/widgets/base_layout.dart';
+import 'package:regatta_app/widgets/dialog.dart';
+import 'package:regatta_app/widgets/text_input.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -15,34 +18,6 @@ class _LoginState extends State<Login> {
   final formKey = GlobalKey<FormState>();
   String _username = "";
   String _password = "";
-
-  Widget textField(String labelStr, IconData icon, void Function(String?) onSaved, {bool obscureText=false}) {
-    Widget label = Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Icon(icon),
-        const SizedBox(width: 8,),
-        Text(
-          labelStr,
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
-      ],
-    );
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        label,
-        TextFormField(
-          autofocus: false,
-          obscureText: obscureText,
-          validator: (value) => value!.isEmpty ? "Bitte ausfüllen!" : null,
-          onSaved: onSaved,
-        ),
-      ],
-    );
-  }
 
   Widget loginBtn(AuthProvider auth) {
     String label = "Login";
@@ -74,12 +49,7 @@ class _LoginState extends State<Login> {
       if (response) {
         Navigator.pushReplacementNamed(context, '/home');
       } else {
-        debugPrint("Failed Login: $response");
-        // Flushbar(
-        //   title: "Failed Login",
-        //   message: response['message']['message'].toString(),
-        //   duration: Duration(seconds: 3),
-        // ).show(context);
+        dialogError(context, ApiResponse(status: false, statusCode: 401, code: 401, error: "Login fehlgeschlagen", msg: "Login fehlgeschlagen. Bitte versuchen Sie es erneut."));
       }
     });
   }
@@ -109,11 +79,13 @@ class _LoginState extends State<Login> {
                       height: 80,
                     ),
                     textField(
+                      context,
                       "Username:",
                       Icons.person,
                       (val) => _username = val ?? "",
                     ),
                     textField(
+                      context,
                       "Password:",
                       Icons.key,
                       (val) => _password = val ?? "",

@@ -116,7 +116,16 @@ class _DrvUploadState extends State<DrvUpload> {
                       ),
                       ElevatedButton(
                         onPressed: uploadPending ? null : handleUpload,
-                        child: Text(uploadPending ? "Bitte warten..." : "Upload"),
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width * .1,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              const Icon(Icons.file_upload),
+                              Text(uploadPending ? "Bitte warten..." : "Upload"),
+                            ],
+                          ),
+                        ),
                       ),
                     ],
                   ),

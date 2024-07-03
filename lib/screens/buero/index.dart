@@ -55,6 +55,12 @@ class BueroIndex extends StatelessWidget {
         ),
         NavBtn(
           context,
+          Icons.swap_horiz,
+          "/buero/startnummerwechseln",
+          "Startnr-Wechsel",
+        ),
+        NavBtn(
+          context,
           Icons.calculate,
           "/buero/kasse",
           "Kasse",

@@ -37,9 +37,27 @@ class LeitungIndex extends StatelessWidget {
         ),
         NavBtn(
           context,
+          Icons.coffee,
+          "/leitung/pausen",
+          "Rennpausen",
+        ),
+        NavBtn(
+          context,
           Icons.access_time,
           "/leitung/zeitplan",
           "Zeitplan erstellen",
+        ),
+        NavBtn(
+          context,
+          Icons.assignment,
+          "/leitung/meldeergebnis",
+          "Meldeergebnis PDF",
+        ),
+        NavBtn(
+          context,
+          Icons.school,
+          "/leitung/urkunden",
+          "Urkunden PDF",
         ),
         NavBtn(
           context,
