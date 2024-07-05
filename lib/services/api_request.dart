@@ -129,6 +129,28 @@ class ApiRequester{
 
     return parseApiResponse(res);
   }
+
+  Future<ApiResponse> delete(String param) async {
+    String getUrl = baseUrl;
+    Uri uri;
+    http.Response res;
+
+    getUrl += "/$param";
+
+    uri = Uri.parse(getUrl);
+    Map<String, String> reqHeaders = await setHeaders();
+
+    try {
+      res = await http.delete(
+        uri,
+        headers: reqHeaders,
+      ).timeout(Duration(seconds: timeoutSec));
+    } catch (e) {
+      return connectionError(e);
+    }
+
+    return parseApiResponse(res);
+  }
   
   Future<ApiResponse> post({Map<String, dynamic> body = const {}}) async {
     Uri uri = Uri.parse(baseUrl);

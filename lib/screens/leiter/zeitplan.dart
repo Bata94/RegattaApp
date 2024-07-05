@@ -60,8 +60,8 @@ class _ZeitplanState extends State<Zeitplan> {
       Center(
         child: Card(
           child: Container(
-            height: 340,
-            width: 320,
+            height: 400,
+            width: 400,
             padding: const EdgeInsets.all(16.0),
             child: Form(
               key: formKey,

@@ -1,3 +1,4 @@
+import 'package:http/http.dart';
 import 'package:regatta_app/services/api_request.dart';
 
 // TODO: Error Handling!!
@@ -20,6 +21,25 @@ Future<Pause> createPause(int laenge, String nachRennenUuid) async {
   });
 
   return Pause.fromJson(res.data);
+}
+
+Future<Pause> updatePause(Pause pause) async {
+  ApiResponse res = await ApiRequester(baseUrl: ApiUrl.pause).put(body: {
+    "id": pause.id,
+    "laenge": pause.laenge,
+  });
+
+  if (!res.status) {
+    throw Exception("Error!");
+  }
+
+  return Pause.fromJson(res.data);
+}
+
+Future<ApiResponse> deletePause(Pause pause) async {
+  ApiResponse res = await ApiRequester(baseUrl: ApiUrl.pause).delete(pause.id.toString());
+
+  return res;
 }
 
 class Pause {
@@ -49,7 +69,7 @@ class Pause {
     return Pause(
       id: json["id"],
       laenge: json["laenge"],
-      nachRennenUuid: json["nachRennenUuid"],
+      nachRennenUuid: json["nach_rennen_uuid"],
     );
   }
 }
