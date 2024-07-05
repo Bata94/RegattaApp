@@ -1,3 +1,27 @@
+import 'package:regatta_app/services/api_request.dart';
+
+Future<Verein> fetchVerein(String uuid) async {
+  ApiResponse res = await ApiRequester(baseUrl: ApiUrl.vereine).get(param: uuid);
+  if (!res.status) {
+    throw Exception("Error!");
+  }
+
+  return Verein.fromJson(res.data);
+}
+
+Future<List<Verein>> fetchVereinAll() async {
+  ApiResponse res = await ApiRequester(baseUrl: ApiUrl.vereine).get();
+  if (!res.status) {
+    throw Exception("Error!");
+  }
+
+  List<Verein> retLs = [];
+  for (Map<String, dynamic> json in res.data) {
+    retLs.add(Verein.fromJson(json));
+  }
+  return retLs;
+}
+
 class Verein {
   final String id;
   final String kuerzel;

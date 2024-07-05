@@ -19,6 +19,8 @@ class ApiUrl {
 
   static const rennen = "$v1Url/rennen";
 
+  static const vereine = "$v1Url/verein";
+
   static const drvMeldUpload = "$v1Url/leitung/drv_meldung_upload";
   static const setzungsLosung = "$v1Url/leitung/setzungslosung";
   static const setzungsLosungReset = "$v1Url/leitung/setzungslosung/reset";
