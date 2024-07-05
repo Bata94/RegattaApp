@@ -36,8 +36,8 @@ class Rennen {
   final String wettkampf;
   final String tag;
   final List<Meldung> meldungen;
-  final int anzAbteilungen;
-  final int anzMeldungen;
+  final int numAbteilungen;
+  final int numMeldungen;
   final String bezeichnung;
   final String zusatz;
   final String startZeit;
@@ -53,8 +53,8 @@ class Rennen {
     required this.wettkampf,
     required this.tag,
     this.meldungen = const [],
-    required this.anzAbteilungen,
-    required this.anzMeldungen,
+    this.numAbteilungen = 0,
+    this.numMeldungen = 0,
     required this.bezeichnung,
     required this.zusatz,
     required this.startZeit,
@@ -62,7 +62,7 @@ class Rennen {
 
   @override
   String toString() =>
-      "$nummer $bezeichnung $zusatz -> $anzMeldungen Meldungen in $anzAbteilungen Abteilungen";
+      "$nummer $bezeichnung $zusatz -> $numMeldungen Meldungen in $numAbteilungen Abteilungen";
 
   factory Rennen.fromJson(Map<String, dynamic> json) {
     List<Meldung> lsMeld = [];
@@ -86,8 +86,8 @@ class Rennen {
       altersklasse: json['alterklasse'] ??= "",
       tag: json['tag'] ??= "",
       wettkampf: json['wettkampf'] ??= "",
-      anzAbteilungen: json['num_abteilungen'] ??= 0,
-      anzMeldungen: json['num_meldungen'] ??= 0,
+      numAbteilungen: json['num_abteilungen'] ??= 0,
+      numMeldungen: json['num_meldungen'] ??= 0,
       startZeit: json['startzeit'] ??= "",
       meldungen: lsMeld,
     );

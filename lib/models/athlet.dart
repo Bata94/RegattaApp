@@ -2,10 +2,10 @@ import 'package:regatta_app/models/meldung.dart';
 import 'package:regatta_app/models/verein.dart';
 
 class Athlet {
-  final String id;
+  final String uuid;
   final String vorname;
   final String name;
-  final String vereinId;
+  final String vereinUuid;
   final String jahrgang;
   final String geschlecht;
   final bool startberechtigt;
@@ -14,10 +14,10 @@ class Athlet {
   final Verein? verein;
 
   Athlet({
-    required this.id,
+    required this.uuid,
     required this.vorname,
     required this.name,
-    required this.vereinId,
+    required this.vereinUuid,
     required this.jahrgang,
     required this.geschlecht,
     required this.startberechtigt,
@@ -40,10 +40,10 @@ class Athlet {
     }
 
     return Athlet(
-      id: json['id'],
+      uuid: json['uuid'],
       vorname: json['vorname'],
       name: json['name'],
-      vereinId: json['verein_id'],
+      vereinUuid: json['verein_uuid'],
       jahrgang: json['jahrgang'],
       geschlecht: json['geschlecht'],
       // TODO: Implement

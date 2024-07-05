@@ -65,7 +65,7 @@ class _MeldungWahlState extends State<MeldungWahl> {
             subtitle:
                 "$athletStr\nStartberechtigt: ${meldung.isStartBer()} - Leichtgewicht: ${meldung.isLeichtGW()}",
             onTap: () =>
-                widget.onTap != null ? widget.onTap!(meldung.id) : null,
+                widget.onTap != null ? widget.onTap!(meldung.uuid) : null,
           );
         },
       );

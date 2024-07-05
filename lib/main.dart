@@ -9,6 +9,7 @@ import 'package:regatta_app/screens/ergebnisse/index.dart';
 import 'package:regatta_app/screens/home.dart';
 import 'package:regatta_app/screens/leiter/drv_upload.dart';
 import 'package:regatta_app/screens/leiter/index.dart';
+import 'package:regatta_app/screens/leiter/pausen.dart';
 import 'package:regatta_app/screens/leiter/setzung_change.dart';
 import 'package:regatta_app/screens/leiter/setzungslosung.dart';
 import 'package:regatta_app/screens/leiter/startnummernvergabe.dart';
@@ -77,6 +78,7 @@ class MyApp extends StatelessWidget {
           '/leitung/setzungslosung': (context) => const Setzungslosung(),
           '/leitung/setzunganpassen': (context) => const SetzungChange(),
           '/leitung/startnummernvergabe': (context) => const Startnummernvergabe(),
+          '/leitung/pausen': (context) => const Pausen(),
           '/leitung/zeitplan': (context) => const Zeitplan(),
 
           '/buero': (context) => const BueroIndex(),

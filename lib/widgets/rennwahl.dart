@@ -47,7 +47,7 @@ class _RennenWahlState extends State<RennenWahl> {
           itemBuilder: (context, i) {
             Rennen rennen = rennenLs[i];
 
-            if (widget.getEmpty == false && rennen.anzMeldungen == 0) {
+            if (widget.getEmpty == false && rennen.numMeldungen == 0) {
               return const SizedBox(
                 width: 2,
               );
@@ -56,7 +56,7 @@ class _RennenWahlState extends State<RennenWahl> {
                 title:
                     "Rennen ${rennen.nummer} ${rennen.bezeichnung} ${rennen.zusatz}",
                 subtitle:
-                    "${rennen.anzMeldungen} Meldungen in ${rennen.anzAbteilungen} Abteilungen -> Startzeit: ${rennen.startZeit}",
+                    "${rennen.numMeldungen} Meldungen in ${rennen.numAbteilungen} Abteilungen -> Startzeit: ${rennen.startZeit}",
                 onTap: () =>
                     widget.onTap != null ? widget.onTap!(rennen) : null,
               );

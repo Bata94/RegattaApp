@@ -1,10 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:regatta_app/models/rennen.dart';
 import 'package:regatta_app/models/athlet.dart';
 import 'package:regatta_app/models/verein.dart';
 
 class Meldung {
-  final String id;
+  final String uuid;
   final String meldungstyp;
   final String? bemerkung;
   bool abgemeldet;
@@ -23,7 +22,7 @@ class Meldung {
   List<Athlet> athlets;
 
   Meldung({
-    required this.id,
+    required this.uuid,
     required this.rennNr,
     this.startNr,
     this.bahn,
@@ -86,13 +85,12 @@ class Meldung {
     List<Athlet> athletLs = [];
     if (json.containsKey("athleten")) {
       for (Map<String, dynamic> athletMap in json['athleten']) {
-        debugPrint(athletMap.toString());
         athletLs.add(Athlet.fromJson(athletMap));
       }
     }
 
     return Meldung(
-      id: json['uuid'] ??= "",
+      uuid: json['uuid'] ??= "",
       meldungstyp: json['typ'] ??= "",
       bemerkung: json['bemerkung'] ??= "",
       abgemeldet: json['abgemeldet'] ??= false,

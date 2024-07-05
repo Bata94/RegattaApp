@@ -15,6 +15,8 @@ class ApiUrl {
 
   static const v1Url = "$baseUrl/v1";
 
+  static const pause = "$v1Url/pause";
+
   static const rennen = "$v1Url/rennen";
 
   static const drvMeldUpload = "$v1Url/leitung/drv_meldung_upload";
@@ -22,6 +24,7 @@ class ApiUrl {
   static const setzungsLosungReset = "$v1Url/leitung/setzungslosung/reset";
   static const setZeitplan = "$v1Url/leitung/setzeitplan";
   static const setStartnummern = "$v1Url/leitung/setstartnummern";
+  static const postSetzungLs = "$v1Url/meldung/updateSetzungBatch";
 }
 
 class ApiResponse {
@@ -158,6 +161,26 @@ class ApiRequester{
     try {
       streamRes = await req.send(); 
       res = await http.Response.fromStream(streamRes);
+    } catch (e) {
+      return connectionError(e);
+    }
+
+    return parseApiResponse(res);
+  }
+
+  Future<ApiResponse> put({Map<String, dynamic> body = const {}}) async {
+    Uri uri = Uri.parse(baseUrl);
+    http.Response res;
+
+    Map<String, String> reqHeaders = await setHeaders();
+    var bodyEnc = jsonEncode(body);
+
+    try {
+      res = await http.put(
+        uri,
+        body: bodyEnc,
+        headers: reqHeaders,
+      ).timeout(Duration(seconds: timeoutSec));
     } catch (e) {
       return connectionError(e);
     }
