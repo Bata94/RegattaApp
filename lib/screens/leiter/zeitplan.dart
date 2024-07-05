@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:regatta_app/services/api_request.dart';
 import 'package:regatta_app/widgets/base_layout.dart';
 import 'package:regatta_app/widgets/dialog.dart';
-import 'package:regatta_app/widgets/text_input.dart';
 
 class Zeitplan extends StatefulWidget {
   const Zeitplan({super.key});
@@ -15,8 +14,8 @@ class Zeitplan extends StatefulWidget {
 
 class _ZeitplanState extends State<Zeitplan> {
   final formKey = GlobalKey<FormState>();
-  String _saStartHour = "";
-  String _soStartHour = "";
+  double _saStartHour = 10;
+  double _soStartHour = 9;
 
   void setStartnummern(BuildContext context) async {
     if (formKey.currentState == null || !formKey.currentState!.validate()) {
@@ -38,8 +37,8 @@ class _ZeitplanState extends State<Zeitplan> {
 
     ApiResponse res = await ApiRequester(baseUrl: ApiUrl.setZeitplan).post(
       body: {
-        "sa_start_stunde": int.tryParse(_saStartHour) ?? "",
-        "so_start_stunde": int.tryParse(_soStartHour) ?? "",
+        "sa_start_stunde": _saStartHour.round(),
+        "so_start_stunde": _soStartHour.round(),
       },
     );
 
@@ -70,38 +69,72 @@ class _ZeitplanState extends State<Zeitplan> {
                 children: [
                   Text(
                     "Erstelle/Aktualisiere Zeitplan:",
-                    style: Theme.of(context).textTheme.titleLarge,
+                    style: Theme.of(context).textTheme.headlineSmall,
                   ),
                   const Divider(),
-                  textField(
-                    context,
-                    "Startstunde Sa:",
-                    Icons.timer,
-                    (val) => _saStartHour = val ?? "",
-                    initialValue: "10",
-                    txtInpType: TextInputType.number,
-                  ),
-                  textField(
-                    context,
-                    "Startstunde Sa:",
-                    Icons.timer,
-                    (val) => _soStartHour = val ?? "",
-                    initialValue: "9",
-                    txtInpType: TextInputType.number,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () => setStartnummern(context),
-                        child: const Column(
-                          children: [
-                            Icon(Icons.access_time),
-                            Text("Erstellen"),
-                          ],
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Icon(Icons.timer),
+                        Text(
+                          "Startstunde Samstag:",
+                          style: Theme.of(context).textTheme.titleLarge,
                         ),
-                      ),
-                    ],
+                        Text(
+                          _saStartHour.round().toString(),
+                          style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Slider(
+                    min: 6,
+                    max: 14,
+                    divisions: 9,
+                    value: _saStartHour,
+                    onChanged: (val) => setState(() => _saStartHour = val),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Icon(Icons.timer),
+                        Text(
+                          "Startstunde Sonntag:",
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                        Text(
+                          _soStartHour.round().toString(),
+                          style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Slider(
+                    min: 6,
+                    max: 14,
+                    divisions: 9,
+                    value: _soStartHour,
+                    onChanged: (val) => setState(() => _soStartHour = val),
+                  ),
+                  const Divider(),
+                  ElevatedButton(
+                    onPressed: () => setStartnummern(context),
+                    child: const Column(
+                      children: [
+                        Icon(Icons.access_time),
+                        Text("Erstellen"),
+                      ],
+                    ),
                   ),
                 ],
               ),
