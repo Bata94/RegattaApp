@@ -1,6 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:regatta_app/provider/auth.dart';
+import 'package:regatta_app/widgets/dialog.dart';
 
 class NavBar extends AppBar {
   NavBar(
@@ -32,25 +35,26 @@ class NavBar extends AppBar {
         ),
       ],
     ),
-    actions: [
+    actions: Provider.of<AuthProvider>(context).user != null ? [
       IconButton(
         icon: const Icon(
           Icons.logout,
         ),
         onPressed: () async {
+          bool confirm = await dialogConfim(context, "Wollen Sie sich wirklich ausloggen?");
+          if (!confirm) {
+            return;
+          }
+
           bool success = await Provider.of<AuthProvider>(context, listen: false).logout();
 
           if (success) {
-            // TODO: fix this!
-
-            // ignore: use_build_context_synchronously
             Navigator.popUntil(context, ModalRoute.withName('/home'));
             await Future.delayed(const Duration(milliseconds: 10));
-            // ignore: use_build_context_synchronously
             Navigator.of(context).pushReplacementNamed('/login');
           }
         },
       ),
-    ],
-  );
+    ] : [],
+ );
 }
