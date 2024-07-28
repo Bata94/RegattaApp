@@ -1,6 +1,26 @@
 import 'package:regatta_app/models/rennen.dart';
 import 'package:regatta_app/models/athlet.dart';
 import 'package:regatta_app/models/verein.dart';
+import 'package:regatta_app/services/api_request.dart';
+
+Future<List<Meldung>> fetchMedlungForVerein(String vereinUuid) async {
+  ApiResponse res = await ApiRequester(baseUrl: ApiUrl.meldungForVerein).get(param: vereinUuid);
+  if (!res.status) {
+    throw Exception("Error!");
+  }
+
+  List<Meldung> retLs = [];
+  for (Map<String, dynamic> meld in res.data) {
+    retLs.add(Meldung.fromJson(meld));
+  }
+
+  return retLs;
+}
+
+Future<ApiResponse> postAbmeldung(String uuid) async {
+  ApiResponse res = await ApiRequester(baseUrl: ApiUrl.bueroAbmeldung).post(body: {"uuid": uuid});
+  return res;
+}
 
 class Meldung {
   final String uuid;
@@ -79,6 +99,50 @@ class Meldung {
     int bahnGew = bahn ??= 1;
 
     return abteilungsGew + bahnGew;
+  }
+
+  String athletenStr() {
+    String retStr = "";
+    if (athlets.isEmpty) {
+      return "Keine Athleten gefunden!";
+    }
+    if (athlets[0].position == null || athlets[0].rolle == null || athlets[0].rolle == "") {
+      return "Athletenauslesung fehlgeschlagen!";
+    }
+
+    List<Athlet> ruderer = [];
+    List<Athlet> steuermann= [];
+    List<Athlet> trainer = [];
+
+    for (Athlet a in athlets) {
+      if (a.rolle == "Ruderer") {
+        ruderer.add(a);
+      } else if (a.rolle == "Trainer") {
+        trainer.add(a);
+      } else if (a.rolle == "Stm.") {
+        steuermann.add(a);
+      }
+    }
+
+    ruderer.sort((a,b)=>a.position!.compareTo(b.position!));
+    trainer.sort((a,b)=>a.position!.compareTo(b.position!));
+    steuermann.sort((a,b)=>a.position!.compareTo(b.position!));
+
+    for (Athlet a in ruderer) {
+      if (retStr != "") {
+        retStr += " - ";
+      }
+      retStr += "#${a.position} ${a.toString()}";
+    }
+
+    for (Athlet a in steuermann) {
+      if (retStr != "") {
+        retStr += " - ";
+      }
+      retStr += "Stm. ${a.toString()}";
+    }
+
+    return retStr;
   }
 
   factory Meldung.fromJson(Map<String, dynamic> json) {

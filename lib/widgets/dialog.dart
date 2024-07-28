@@ -102,7 +102,7 @@ void dialogError(BuildContext context, ApiResponse err) {
   );
 }
 
-Future<bool> dialogConfim(BuildContext context, String message, {String title = "Sind Sie sicher?"}) async {
+Future<bool> dialogConfim(BuildContext context, String message, {String title = "Sind Sie sicher?", bool reverseColorsBtn = false,}) async {
   bool confirm = false;
 
   TextTheme txtTheme = Theme.of(context).textTheme;
@@ -128,18 +128,21 @@ Future<bool> dialogConfim(BuildContext context, String message, {String title = 
         ),
         actions: [
           ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor: reverseColorsBtn ? MaterialStateProperty.all<Color>(colorScheme.error) : null,
+            ),
             onPressed: () {
               confirm = true;
               Navigator.of(context).pop();
             },
             child: Text(
               "Ja",
-              style: txtTheme.bodyLarge,
+              style: reverseColorsBtn ? txtTheme.bodyLarge!.copyWith(color: colorScheme.onError) : txtTheme.bodyLarge,
             ),
           ),
           ElevatedButton(
             style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all<Color>(colorScheme.error),
+              backgroundColor: !reverseColorsBtn ? MaterialStateProperty.all<Color>(colorScheme.error) : null,
             ),
             onPressed: () {
               confirm = false;
@@ -147,7 +150,7 @@ Future<bool> dialogConfim(BuildContext context, String message, {String title = 
             },
             child: Text(
               "Nein",
-              style: txtTheme.bodyLarge!.copyWith(color: colorScheme.onError),
+              style: !reverseColorsBtn ? txtTheme.bodyLarge!.copyWith(color: colorScheme.onError) : txtTheme.bodyLarge,
             ),
           ),
         ],

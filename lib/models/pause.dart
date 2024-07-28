@@ -1,4 +1,3 @@
-import 'package:http/http.dart';
 import 'package:regatta_app/services/api_request.dart';
 
 // TODO: Error Handling!!

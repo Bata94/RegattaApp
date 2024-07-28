@@ -10,6 +10,8 @@ class Athlet {
   final String geschlecht;
   final bool startberechtigt;
   final double gewicht;
+  final String? rolle;
+  final int? position;
   final List<Meldung> meldungen;
   final Verein? verein;
 
@@ -22,6 +24,8 @@ class Athlet {
     required this.geschlecht,
     required this.startberechtigt,
     required this.gewicht,
+    this.rolle,
+    this.position,
     this.meldungen = const [],
     this.verein,
   });
@@ -48,8 +52,10 @@ class Athlet {
       geschlecht: json['geschlecht'],
       // TODO: Implement
       startberechtigt: json['startberechtigt'] ??= true,
-      gewicht: json['gewicht'],
-      verein: json.containsKey("Verein") ? Verein.fromJson(json['Verein']) : null,
+      gewicht: double.tryParse(json['gewicht'].toString()) ?? 99.99,
+      rolle: json['rolle'],
+      position: json['position'],
+      verein: json.containsKey("verein") ? Verein.fromJson(json['verein']) : null,
       meldungen: lsMeld,
     );
   }

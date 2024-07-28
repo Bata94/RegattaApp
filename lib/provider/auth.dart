@@ -33,6 +33,32 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<User?> getUserFromApi(JWT jwt) async {
+    ApiResponse res = await ApiRequester(
+      baseUrl: ApiUrl.me,
+      securedEndpoint: false,
+      headers: {
+        'Authorization': 'Bearer ${jwt.token}',
+      }).get();
+
+    if (!res.status) {
+      unsetUser();
+      return null;
+    }
+
+    try {
+      User userData = User(
+        ulid: res.data['ulid'],
+        username: res.data['username'],
+        jwt: jwt,
+      );
+      setUser(userData);
+      return userData;
+    } catch (e) {
+      return null;
+    }
+  }
+
   Future<bool> login(String username, String password) async {
     final Map<String, dynamic> loginJson = {
       'username': username,
@@ -42,7 +68,10 @@ class AuthProvider with ChangeNotifier {
     _loggedInStatus = Status.Authenticating;
     notifyListeners();
 
-    ApiResponse res = await ApiRequester(baseUrl: ApiUrl.login).post(
+    ApiResponse res = await ApiRequester(
+      baseUrl: ApiUrl.login,
+      securedEndpoint: false)
+    .post(
       body: loginJson,
     );
 
@@ -61,15 +90,28 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<bool> logout() async {
-    ApiResponse res = await ApiRequester(baseUrl: ApiUrl.logout).post();
+    // ApiResponse res = await ApiRequester(baseUrl: ApiUrl.logout).post();
+
+    // if (res.status) {
+    UserPreferences().removeUser();
+    _user = null;
+    _loggedInStatus = Status.NotLoggedIn;
+    notifyListeners();
+    return true;
+    // }
+
+    // return res.status;
+  }
+
+  Future<bool> validate() async {
+    ApiResponse res = await ApiRequester(baseUrl: ApiUrl.userValidate).get();
 
     if (res.status) {
-      UserPreferences().removeUser();
-      _user = null;
-      _loggedInStatus = Status.NotLoggedIn;
-      notifyListeners();
-    }
+      return true;
+    } else {
+      logout();
 
-    return res.status;
+      return false;
+    }
   }
 }

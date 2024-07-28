@@ -1,33 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:regatta_app/models/teilnehmer.dart';
+import 'package:regatta_app/models/athlet.dart';
 import 'package:regatta_app/widgets/clickable_listtile.dart';
 
-class TeilnehmerWahl extends StatefulWidget {
-  final List<Teilnehmer> teilnehmerLs;
-  final void Function(Teilnehmer)? onTap;
-  const TeilnehmerWahl({
+class AthletWahl extends StatefulWidget {
+  final List<Athlet> athletLs;
+  final void Function(Athlet)? onTap;
+  const AthletWahl({
     super.key,
-    required this.teilnehmerLs,
+    required this.athletLs,
     this.onTap,
   });
 
   @override
-  State<TeilnehmerWahl> createState() => _TeilnehmerWahlState();
+  State<AthletWahl> createState() => _AthletWahlState();
 }
 
-class _TeilnehmerWahlState extends State<TeilnehmerWahl> {
+class _AthletWahlState extends State<AthletWahl> {
   @override
   Widget build(BuildContext context) {
-    List<Teilnehmer> teilnehmerLs = widget.teilnehmerLs;
+    List<Athlet> athletLs = widget.athletLs;
 
     return ListView.builder(
-      itemCount: teilnehmerLs.length,
+      itemCount: athletLs.length,
       itemBuilder: (context, i) {
-        Teilnehmer teilnehmer = teilnehmerLs[i];
+        Athlet athlet = athletLs[i];
 
         return ClickableListTile(
-          title: teilnehmer.toString(),
-          onTap: () => widget.onTap != null ? widget.onTap!(teilnehmer) : null,
+          title: athlet.toString(),
+          onTap: () => widget.onTap != null ? widget.onTap!(athlet) : null,
         );
       },
     );

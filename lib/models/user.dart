@@ -1,7 +1,24 @@
+class JWT {
+  String token;
+  DateTime expiration;
+
+  JWT({
+    required this.token,
+    required this.expiration,
+  });
+
+  factory JWT.fromJson(Map<String, dynamic> json) {
+    return JWT(
+      token: json['token'],
+      expiration: DateTime.parse(json['expiration']),
+    );
+  }
+}
+
 class User {
   String ulid;
   String username;
-  String jwt;
+  JWT jwt;
 
   User({
     required this.ulid,
@@ -13,7 +30,7 @@ class User {
     return User(
       ulid: json['ulid'],
       username: json['username'],
-      jwt: json['jwt'],
+      jwt: JWT.fromJson(json['jwt']),
     );
   }
 }

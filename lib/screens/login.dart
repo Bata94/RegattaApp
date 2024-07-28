@@ -19,7 +19,7 @@ class _LoginState extends State<Login> {
   String _username = "";
   String _password = "";
 
-  Widget loginBtn(AuthProvider auth) {
+  Widget loginBtn(BuildContext context, AuthProvider auth) {
     String label = "Login";
     bool enabled = true;
 
@@ -29,7 +29,7 @@ class _LoginState extends State<Login> {
     }
 
     return ElevatedButton(
-      onPressed: enabled ? () => _login(auth) : null,
+      onPressed: enabled ? () => _login(Provider.of<AuthProvider>(context, listen: false)) : null,
       child: Text(label),
     );
   }
@@ -42,8 +42,7 @@ class _LoginState extends State<Login> {
     final FormState form = formKey.currentState!;
     form.save();
 
-    final Future<bool> successfulMessage =
-      auth.login(_username, _password);
+    final Future<bool> successfulMessage = auth.login(_username, _password);
 
     successfulMessage.then((response) {
       if (response) {
@@ -56,7 +55,7 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    AuthProvider authProv = Provider.of<AuthProvider>(context);
+    AuthProvider auth = Provider.of<AuthProvider>(context);
 
     return BaseLayout(
       "Login",
@@ -91,7 +90,7 @@ class _LoginState extends State<Login> {
                       (val) => _password = val ?? "",
                       obscureText: true,
                     ),
-                    loginBtn(authProv)
+                    loginBtn(context, auth),
                   ],
                 ),
               ),

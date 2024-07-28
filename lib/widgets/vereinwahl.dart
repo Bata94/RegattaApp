@@ -24,8 +24,8 @@ class _VereinWahlState extends State<VereinWahl> {
   Widget build(BuildContext context) {
     return easyFutureBuilder(
       fetchVereinAll(
-        getMissingAktivenPass: widget.getMissingAktivenPass,
-        getMissingWaage: widget.getMissingWaage,
+        // widget.getMissingAktivenPass: widget.getMissingAktivenPass,
+        // widget.getMissingWaage: widget.getMissingWaage,
       ),
       (data) {
         List<Verein> vereinLs = data as List<Verein>;

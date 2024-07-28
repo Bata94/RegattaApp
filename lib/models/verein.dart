@@ -1,3 +1,4 @@
+import 'package:regatta_app/models/athlet.dart';
 import 'package:regatta_app/services/api_request.dart';
 
 Future<Verein> fetchVerein(String uuid) async {
@@ -22,14 +23,42 @@ Future<List<Verein>> fetchVereinAll() async {
   return retLs;
 }
 
+Future<List<Athlet>> fetchMissWaage(Verein verein) async {
+  ApiResponse res = await ApiRequester(baseUrl: ApiUrl.vereinWaage).get(param: verein.uuid);
+  if (!res.status) {
+    throw Exception("Error!");
+  }
+      
+  List<Athlet> athletLs = [];
+  for (Map<String, dynamic> ath in res.data) {
+    athletLs.add(Athlet.fromJson(ath));
+  }
+
+  return athletLs;
+}
+
+Future<List<Athlet>> fetchMissStartberechtigung(Verein verein) async {
+  ApiResponse res = await ApiRequester(baseUrl: ApiUrl.vereinStartberechtigung).get(param: verein.uuid);
+  if (!res.status) {
+    throw Exception("Error!");
+  }
+      
+  List<Athlet> athletLs = [];
+  for (Map<String, dynamic> ath in res.data) {
+    athletLs.add(Athlet.fromJson(ath));
+  }
+
+  return athletLs;
+}
+
 class Verein {
-  final String id;
+  final String uuid;
   final String kuerzel;
   final String kurzform;
   final String name;
 
   Verein({
-    required this.id,
+    required this.uuid,
     required this.kuerzel,
     required this.kurzform,
     required this.name,
@@ -38,9 +67,9 @@ class Verein {
   factory Verein.fromJson(Map<String, dynamic> json) {
 
     return Verein(
-      id: json['id'],
-      kuerzel: json['lettern'],
-      kurzform: json['kurzform'],
+      uuid: json['uuid'],
+      kuerzel: json['kuerzel'],
+      kurzform: json['kurzform'] == "" ? json['kuerzel'] : json["kurzform"],
       name: json['name'],
     );
   }

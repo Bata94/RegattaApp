@@ -7,29 +7,31 @@ class UserPreferences {
   Future saveUser(User user) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    prefs.setString("ulid", user.ulid);
-    prefs.setString("username", user.username);
-    prefs.setString("jwt", user.jwt);
-    // prefs.setString("renewalToken", user.renewalToken);
+    prefs.setString("jwtToken", user.jwt.token);
+    prefs.setString("jwtExp", user.jwt.expiration.toString());
   }
 
-  Future<User?> getUser() async {
+  Future<JWT?> getUser() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     
-    String ulid = prefs.getString("ulid") ?? "";
-    String username = prefs.getString("username") ?? "";
-    String jwt = prefs.getString("jwt") ?? "";
-    // String renewalToken = prefs.getString("renewalToken");
+    String jwtToken = prefs.getString("jwtToken") ?? "";
+    String jwtExpStr = prefs.getString("jwtExp") ?? "";
 
-    if (ulid == "") {
-     return null;
+    if (jwtToken == "" || jwtExpStr == "") {
+      return null;
     }
 
-    return User(
-      ulid: ulid,
-      username: username,
-      jwt: jwt,
+    DateTime? jwtExp = DateTime.tryParse(jwtExpStr);
+
+    if (jwtExp == null || jwtExp.isBefore(DateTime.now())) {
+      return null;
+    }
+
+    return JWT(
+      token: jwtToken,
+      expiration: jwtExp,
     );
+
   }
 
   void removeUser() async {
@@ -42,7 +44,7 @@ class UserPreferences {
 
   Future<String> getToken(args) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    String token = prefs.getString("jwt") ?? "";
+    String token = prefs.getString("jwtToken") ?? "";
     return token;
   }
 }

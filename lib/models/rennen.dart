@@ -12,8 +12,21 @@ Future<Rennen> fetchRennen(String uuid) async {
   return ret;
 }
 
-Future<List<Rennen>> fetchRennenAll() async {
-  ApiResponse res = await ApiRequester(baseUrl: ApiUrl.rennen).get();
+Future<List<Rennen>> fetchRennenAll({
+    bool getMeld = false,
+    bool getAthlet = false,
+    String? wettkampf,
+  }) async {
+  Map<String, dynamic> queryParams = {
+    "getMeld": getMeld ? "1" : "0",
+    "getAthlet": getAthlet ? "1" : "0",
+  };
+
+  if (wettkampf != null) {
+    queryParams['wettkampf'] = wettkampf;
+  }
+
+  ApiResponse res = await ApiRequester(baseUrl: ApiUrl.rennen).get(queryParams: queryParams);
   if (!res.status) {
     throw Exception("Error!");
   }
@@ -81,7 +94,7 @@ class Rennen {
       bezeichnung: json['bezeichnung'] ??= "",
       zusatz: json['zusatz'] ??= "",
       leichtgewicht: json['leichtgewicht'] ??= false,
-      geschlecht: json['geschlecht']['geschlecht'] ??= "",
+      geschlecht: json['geschlecht'] ??= "",
       bootsklasse: json['bootsklasse'] ??= "",
       altersklasse: json['alterklasse'] ??= "",
       tag: json['tag'] ??= "",
