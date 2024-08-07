@@ -1,5 +1,22 @@
+import 'package:flutter/material.dart';
 import 'package:regatta_app/models/meldung.dart';
+import 'package:regatta_app/models/rennen.dart';
 import 'package:regatta_app/models/verein.dart';
+import 'package:regatta_app/services/api_request.dart';
+
+Future<ApiResponse> updateAthletGewicht(String uuid, double gewicht) async {
+  ApiResponse res = await ApiRequester(baseUrl: ApiUrl.athletenWaage).put(
+    body: {"uuid": uuid, "gewicht": (gewicht*10).round()},
+  );
+  return res;
+}
+
+Future<ApiResponse> updateAthletStartberechtigung(String uuid, bool startberechtigt) async {
+  ApiResponse res = await ApiRequester(baseUrl: ApiUrl.athletenStartberechtigung).put(
+    body: {"uuid": uuid, "startberechtigt": startberechtigt},
+  );
+  return res;
+}
 
 class Athlet {
   final String uuid;
@@ -43,6 +60,13 @@ class Athlet {
       }
     }
 
+    double gewicht = 0.0;
+    try {
+      gewicht = json['gewicht'] / 10;
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+
     return Athlet(
       uuid: json['uuid'],
       vorname: json['vorname'],
@@ -52,7 +76,7 @@ class Athlet {
       geschlecht: json['geschlecht'],
       // TODO: Implement
       startberechtigt: json['startberechtigt'] ??= true,
-      gewicht: double.tryParse(json['gewicht'].toString()) ?? 99.99,
+      gewicht: gewicht,
       rolle: json['rolle'],
       position: json['position'],
       verein: json.containsKey("verein") ? Verein.fromJson(json['verein']) : null,
@@ -61,3 +85,19 @@ class Athlet {
   }
 }
 
+class AthletWithFirstRace {
+  final Athlet athlet;
+  final Rennen firstRace;
+
+  AthletWithFirstRace({
+    required this.athlet,
+    required this.firstRace,
+  });
+
+  factory AthletWithFirstRace.fromJson(Map<String, dynamic> json) {
+    return AthletWithFirstRace(
+      athlet: Athlet.fromJson(json['athlet']),
+      firstRace: Rennen.fromJson(json['erstes_rennen']),
+    );
+  }
+}

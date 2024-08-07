@@ -23,6 +23,27 @@ Future<List<Verein>> fetchVereinAll() async {
   return retLs;
 }
 
+Future<List<VereinWithAthleten>> fetchAllMissWaageByVerein() async {
+  ApiResponse res = await ApiRequester(baseUrl: ApiUrl.athletenWaage).get();
+  if (!res.status) {
+    throw Exception("Error!");
+  }
+      
+  List<VereinWithAthleten> retLs = [];
+  for (Map<String, dynamic> d in res.data) {
+    List<AthletWithFirstRace> athleten = [];
+    for (Map<String, dynamic> a in d['athleten']) {
+      athleten.add(AthletWithFirstRace.fromJson(a));
+    }
+    retLs.add(VereinWithAthleten(
+      verein: Verein.fromJson(d['verein']),
+      athleten: athleten,
+    ));
+  }
+
+  return retLs;
+}
+
 Future<List<Athlet>> fetchMissWaage(Verein verein) async {
   ApiResponse res = await ApiRequester(baseUrl: ApiUrl.vereinWaage).get(param: verein.uuid);
   if (!res.status) {
@@ -73,5 +94,12 @@ class Verein {
       name: json['name'],
     );
   }
+}
+
+class VereinWithAthleten {
+  final Verein verein;
+  final List<AthletWithFirstRace> athleten;
+
+  VereinWithAthleten({required this.verein, required this.athleten});
 }
 

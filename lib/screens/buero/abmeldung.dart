@@ -62,12 +62,18 @@ class _BueroAbmeldungState extends State<BueroAbmeldung> {
 
   Widget body() {
     if (verein == null) {
-      return VereinWahl(
-        onTap: (v) {
-          setState(() => verein = v);
-        },
-      );
-    } else {
+      return easyFutureBuilder(
+        fetchVereinAll(),
+        (data) {
+          return VereinWahl(
+            vereinLs: data,
+            onTap: (v) {
+              setState(() => verein = v);
+            },
+          );
+        }
+        );
+      } else {
       return easyFutureBuilder(
         fetchMedlungForVerein(verein!.uuid),
         (snapshot) {
