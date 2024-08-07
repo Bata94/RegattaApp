@@ -38,6 +38,16 @@ class NavBar extends AppBar {
     actions: Provider.of<AuthProvider>(context).user != null ? [
       IconButton(
         icon: const Icon(
+          Icons.home,
+        ),
+        onPressed: () async {
+          Navigator.popUntil(context, ModalRoute.withName('/home'));
+          await Future.delayed(const Duration(milliseconds: 10));
+          Navigator.of(context).pushNamed('/home');
+        },
+      ),
+      IconButton(
+        icon: const Icon(
           Icons.logout,
         ),
         onPressed: () async {

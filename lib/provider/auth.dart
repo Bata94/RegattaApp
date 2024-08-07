@@ -41,6 +41,11 @@ class AuthProvider with ChangeNotifier {
         'Authorization': 'Bearer ${jwt.token}',
       }).get();
 
+    if (res.statusCode == 999) {
+      // TODO: Handle properly!
+      throw Exception('No Internet connection!');
+    }
+
     if (!res.status) {
       unsetUser();
       return null;
