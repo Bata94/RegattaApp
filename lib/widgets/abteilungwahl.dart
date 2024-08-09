@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:regatta_app/models/meldung.dart';
 import 'package:regatta_app/models/rennen.dart';
-import 'package:regatta_app/models/athlet.dart';
 import 'package:regatta_app/widgets/clickable_listtile.dart';
 import 'package:regatta_app/widgets/easy_future_builder.dart';
 
@@ -26,10 +25,8 @@ class AbteilungWahl extends StatefulWidget {
 
 class _AbteilungWahlState extends State<AbteilungWahl> {
   Future<Rennen> fetchData(String rennId) async {
-    return await fetchRennenOne(
+    return await fetchRennen(
       widget.rennId,
-      meldungInfo: widget.getStarted,
-      getStarted: widget.meldungInfo,
     );
   }
 
@@ -45,9 +42,7 @@ class _AbteilungWahlState extends State<AbteilungWahl> {
             onTap: () => widget.onAbteilungTap != null
                 ? widget.onAbteilungTap!(meldung.abteilung! - 1)
                 : null,
-            child: Container(
-              child: Column(children: abtWidLs),
-            ),
+            child: Column(children: abtWidLs),
           ),
         );
         abtWidLs = [];
@@ -68,50 +63,31 @@ class _AbteilungWahlState extends State<AbteilungWahl> {
         ));
       }
 
-      String teilnehmerStr = "";
-
-      if (meldung.teilnehmers.isEmpty) {
-        teilnehmerStr = "No Teilnehmer found!";
-      } else {
-        int i = 1;
-        // TODO: Impl. Position and Stm.
-        for (Teilnehmer teilnehmer in meldung.teilnehmers.reversed) {
-          if (teilnehmerStr != "") {
-            teilnehmerStr += " - ";
-          }
-
-          teilnehmerStr += "#${i == 5 ? "Stm:" : i} $teilnehmer";
-          i++;
-        }
-      }
-
       Widget meldungWidget = Padding(
         padding: const EdgeInsets.all(8.0),
         child: ClickableListTile(
           title:
               "${meldung.startNr} - ${meldung.verein!.kurzform} | Abteilung ${meldung.abteilung} Bahn ${meldung.bahn}",
-          subtitle: "Teilnehmer: $teilnehmerStr",
+          subtitle: "Teilnehmer: ${meldung.athletenStr()}",
         ),
       );
 
       abtWidLs.add(
         widget.onMeldungTap != null
             ? GestureDetector(
-                onTap: () => widget.onMeldungTap!(meldung.id),
+                onTap: () => widget.onMeldungTap!(meldung.uuid),
                 child: meldungWidget,
               )
             : meldungWidget,
       );
     }
 
-    Widget abteilungWidget = Container(
-      child: Column(children: abtWidLs),
-    );
+    Widget abteilungWidget = Column(children: abtWidLs);
 
     retLs.add(
       widget.onAbteilungTap != null
           ? GestureDetector(
-              onTap: () => widget.onAbteilungTap!(rennen.anzAbteilungen),
+              onTap: () => widget.onAbteilungTap!(rennen.numAbteilungen),
               child: abteilungWidget,
             )
           : abteilungWidget,
