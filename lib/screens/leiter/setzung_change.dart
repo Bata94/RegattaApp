@@ -40,7 +40,7 @@ class _SetzungChangeState extends State<SetzungChange> {
         });
       }      
     } catch (e) {
-      dialogError(context, ApiResponse(status: false, statusCode: 999, code: 999, msg: "Eingabe üngültig!"));
+      dialogError(context, "Eingabe üngültig!", "Eingabe üngültig!");
       return;
     }
     
@@ -66,7 +66,7 @@ class _SetzungChangeState extends State<SetzungChange> {
     if (res.status) {  
       dialogOkay(context, "Setzung erfolgreich verändert!");
     } else {
-      dialogError(context, res);
+      dialogApiError(context, res);
     }
   }
 

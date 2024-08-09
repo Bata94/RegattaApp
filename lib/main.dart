@@ -5,6 +5,7 @@ import 'package:regatta_app/provider/auth.dart';
 import 'package:regatta_app/screens/admin/index.dart';
 import 'package:regatta_app/screens/admin/theme_show.dart';
 import 'package:regatta_app/screens/buero/abmeldung.dart';
+import 'package:regatta_app/screens/buero/athlet_anlegen.dart';
 import 'package:regatta_app/screens/buero/index.dart';
 import 'package:regatta_app/screens/buero/startberechtigung.dart';
 import 'package:regatta_app/screens/buero/waage.dart';
@@ -99,6 +100,7 @@ class MyApp extends StatelessWidget {
           '/buero/abmeldung': (context) => const BueroAbmeldung(),
           '/buero/waage': (context) => const BueroWaage(),
           '/buero/startberechtigung': (context) => const BueroStartberechtigung(),
+          '/buero/athletAnlegen': (context) => const BueroAthletAnlegen(),
 
           '/admin': (context) => const AdminIndex(),
           '/admin/themeshow': (context) => const ThemeShowCase(),

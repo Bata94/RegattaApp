@@ -109,7 +109,7 @@ class _PausenState extends State<Pausen> {
                               ApiResponse res = await deletePause(pause);
                               Navigator.of(context).pop();
                               if (!res.status) {
-                                dialogError(context, res);
+                                dialogApiError(context, res);
                                 return;
                               }
                             }

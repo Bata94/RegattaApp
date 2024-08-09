@@ -21,7 +21,7 @@ Widget textField(BuildContext context, String labelStr, IconData icon, void Func
       TextFormField(
         autofocus: false,
         obscureText: obscureText,
-        initialValue: initialValue,
+        initialValue: initialValue ?? "",
         keyboardType: txtInpType,
         validator: (value) => value!.isEmpty ? "Bitte ausfüllen!" : null,
         onSaved: onSaved,

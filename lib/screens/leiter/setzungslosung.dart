@@ -27,7 +27,7 @@ class Setzungslosung extends StatelessWidget {
     if (res.status) {
       dialogOkay(context, res.data);
     } else {
-      dialogError(context, res);
+      dialogApiError(context, res);
     }
   }
 
@@ -50,7 +50,7 @@ class Setzungslosung extends StatelessWidget {
     if (res.status) {
       dialogOkay(context, res.data);
     } else {
-      dialogError(context, res);
+      dialogApiError(context, res);
     }
   }
 

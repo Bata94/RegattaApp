@@ -49,7 +49,7 @@ class _BueroAbmeldungState extends State<BueroAbmeldung> {
       if (!res.status) {
         Navigator.of(context).pop();
         await Future.delayed(const Duration(milliseconds: 50));
-        dialogError(context, res);
+        dialogApiError(context, res);
       } else {
         List<Meldung> newMeldungen = await fetchMedlungForVerein(verein!.uuid);
         Navigator.of(context).pop();

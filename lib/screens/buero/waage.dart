@@ -214,7 +214,7 @@ class _BueroWaageState extends State<BueroWaage> {
                   ),
                 );
               } else {
-                dialogError(context, res);
+                dialogApiError(context, res);
               }
             },
             child: const Text("Abschicken"),

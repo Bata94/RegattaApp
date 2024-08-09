@@ -4,6 +4,25 @@ import 'package:regatta_app/models/rennen.dart';
 import 'package:regatta_app/models/verein.dart';
 import 'package:regatta_app/services/api_request.dart';
 
+Future<Athlet> createAthlet(String vereinUuid, vorname, nachname, jahrgang, bool geschlechtMaennlich, startberechtigt) async {
+  Map<String, dynamic> body = {
+    "verein_uuid": vereinUuid,
+    "vorname": vorname,
+    "name": nachname,
+    "jahrgang": jahrgang,
+    "geschlecht": geschlechtMaennlich ? "w" : "m",
+    "startberechtigt": startberechtigt,
+  };
+
+  ApiResponse res = await ApiRequester(baseUrl: ApiUrl.athlet).post(body: body);
+
+  if (!res.status) {
+    throw Exception(res.msg);
+  }
+
+  return Athlet.fromJson(res.data);
+}
+
 Future<ApiResponse> updateAthletGewicht(String uuid, double gewicht) async {
   ApiResponse res = await ApiRequester(baseUrl: ApiUrl.athletenWaage).put(
     body: {"uuid": uuid, "gewicht": (gewicht*10).round()},

@@ -21,6 +21,7 @@ class ApiUrl {
 
   static const v1Url = "$baseUrl/v1";
 
+  static const athlet = "$v1Url/athlet";
   static const athletenWaage = "$v1Url/athlet/waage";
   static const athletenStartberechtigung = "$v1Url/athlet/startberechtigung";
 

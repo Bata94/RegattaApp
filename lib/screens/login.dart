@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:regatta_app/provider/auth.dart';
-import 'package:regatta_app/services/api_request.dart';
 import 'package:regatta_app/widgets/base_layout.dart';
 import 'package:regatta_app/widgets/dialog.dart';
 import 'package:regatta_app/widgets/text_input.dart';
@@ -48,7 +47,7 @@ class _LoginState extends State<Login> {
       if (response) {
         Navigator.pushReplacementNamed(context, '/home');
       } else {
-        dialogError(context, ApiResponse(status: false, statusCode: 401, code: 401, error: "Login fehlgeschlagen", msg: "Login fehlgeschlagen. Bitte versuchen Sie es erneut."));
+        dialogError(context, "Login fehlgeschlagen", "Login fehlgeschlagen. Bitte versuchen Sie es erneut.");
       }
     });
   }

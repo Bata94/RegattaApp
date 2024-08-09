@@ -72,7 +72,7 @@ class _BueroStartberechtigungState extends State<BueroStartberechtigung> {
                   ),
                 );
               } else {
-                dialogError(context, res);
+                dialogApiError(context, res);
               }
             },
             child: const Text("Ja"),
@@ -119,6 +119,6 @@ class _BueroStartberechtigungState extends State<BueroStartberechtigung> {
 
   @override
   Widget build(BuildContext context) {
-    return BaseLayout("Waage", body());
+    return BaseLayout("Ärztliche Bescheinigung", body());
   }
 }

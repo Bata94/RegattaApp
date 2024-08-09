@@ -48,7 +48,7 @@ class _ZeitplanState extends State<Zeitplan> {
     if (res.status) {
       dialogOkay(context, res.data);
     } else {
-      dialogError(context, res);
+      dialogApiError(context, res);
     }
   }
 

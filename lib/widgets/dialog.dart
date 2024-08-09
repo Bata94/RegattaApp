@@ -61,7 +61,11 @@ void dialogOkay(BuildContext context, dynamic message, {String title = "Okay"}) 
   );
 }
 
-void dialogError(BuildContext context, ApiResponse err) {
+void dialogApiError(BuildContext context, ApiResponse err) {
+  dialogError(context, err.error, err.msg);
+}
+
+void dialogError(BuildContext context, String title, msg) {
   TextTheme txtTheme = Theme.of(context).textTheme;
   ColorScheme colorScheme = Theme.of(context).colorScheme;
 
@@ -70,13 +74,13 @@ void dialogError(BuildContext context, ApiResponse err) {
     builder: (context) {
       return AlertDialog(
         title: Text(
-          err.error,
+          title,
           style: txtTheme.titleLarge,
         ),
         content: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
-            err.msg,
+            msg,
             softWrap: true,
             maxLines: 10,
             overflow: TextOverflow.ellipsis,
