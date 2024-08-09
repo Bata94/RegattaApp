@@ -6,6 +6,7 @@ import 'package:regatta_app/screens/admin/index.dart';
 import 'package:regatta_app/screens/admin/theme_show.dart';
 import 'package:regatta_app/screens/buero/abmeldung.dart';
 import 'package:regatta_app/screens/buero/index.dart';
+import 'package:regatta_app/screens/buero/startberechtigung.dart';
 import 'package:regatta_app/screens/buero/waage.dart';
 import 'package:regatta_app/screens/ergebnisse/index.dart';
 import 'package:regatta_app/screens/home.dart';
@@ -97,6 +98,7 @@ class MyApp extends StatelessWidget {
           '/buero': (context) => const BueroIndex(),
           '/buero/abmeldung': (context) => const BueroAbmeldung(),
           '/buero/waage': (context) => const BueroWaage(),
+          '/buero/startberechtigung': (context) => const BueroStartberechtigung(),
 
           '/admin': (context) => const AdminIndex(),
           '/admin/themeshow': (context) => const ThemeShowCase(),

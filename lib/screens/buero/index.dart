@@ -38,7 +38,7 @@ class BueroIndex extends StatelessWidget {
         NavBtn(
           context,
           Icons.medical_information,
-          "/buero/missingAktivenPass",
+          "/buero/startberechtigung",
           "Ärztl. Besch.",
         ),
         NavBtn(

@@ -23,6 +23,87 @@ class _BueroWaageState extends State<BueroWaage> {
   List<VereinWithAthleten> vereinWithAthletenLs = [];
   List<AthletWithFirstRace> athletLs = [];
 
+  Widget startgewichtTabelle = Table(
+    children: const [
+      TableRow(
+        children: [
+          TableCell(
+            child: Text(
+              "Alter",
+            ),
+          ),
+          TableCell(
+            child: Text(
+              "Jungen",
+            ),
+          ),
+          TableCell(
+            child: Text(
+              "Mädchen",
+            ),
+          ),
+        ],
+      ),
+      TableRow(
+        children: [
+          TableCell(
+            child: Text(
+              "14 Jahre",
+            ),
+          ),
+          TableCell(
+            child: Text(
+              "55 kg",
+            ),
+          ),
+          TableCell(
+            child: Text(
+              "52,5 kg",
+            ),
+          ),
+        ],
+      ),
+      TableRow(
+        children: [
+          TableCell(
+            child: Text(
+              "13 Jahre",
+            ),
+          ),
+          TableCell(
+            child: Text(
+              "50 kg",
+            ),
+          ),
+          TableCell(
+            child: Text(
+              "50 kg",
+            ),
+          ),
+        ],
+      ),
+      TableRow(
+        children: [
+          TableCell(
+            child: Text(
+              "12 Jahre",
+            ),
+          ),
+          TableCell(
+            child: Text(
+              "45 kg",
+            ),
+          ),
+          TableCell(
+            child: Text(
+              "45 kg",
+            ),
+          ),
+        ],
+      ),
+    ],
+  );
+
   void waageDialog(AthletWithFirstRace athletWithFirstRace) {
     TextEditingController gewichtController =
         TextEditingController(text: athletWithFirstRace.athlet.gewicht.toString());
@@ -34,86 +115,7 @@ class _BueroWaageState extends State<BueroWaage> {
       ),
     ];
 
-    bodyLs.add(Table(
-      children: const [
-        TableRow(
-          children: [
-            TableCell(
-              child: Text(
-                "Alter",
-              ),
-            ),
-            TableCell(
-              child: Text(
-                "Jungen",
-              ),
-            ),
-            TableCell(
-              child: Text(
-                "Mädchen",
-              ),
-            ),
-          ],
-        ),
-        TableRow(
-          children: [
-            TableCell(
-              child: Text(
-                "14 Jahre",
-              ),
-            ),
-            TableCell(
-              child: Text(
-                "55 kg",
-              ),
-            ),
-            TableCell(
-              child: Text(
-                "52,5 kg",
-              ),
-            ),
-          ],
-        ),
-        TableRow(
-          children: [
-            TableCell(
-              child: Text(
-                "13 Jahre",
-              ),
-            ),
-            TableCell(
-              child: Text(
-                "50 kg",
-              ),
-            ),
-            TableCell(
-              child: Text(
-                "50 kg",
-              ),
-            ),
-          ],
-        ),
-        TableRow(
-          children: [
-            TableCell(
-              child: Text(
-                "12 Jahre",
-              ),
-            ),
-            TableCell(
-              child: Text(
-                "45 kg",
-              ),
-            ),
-            TableCell(
-              child: Text(
-                "45 kg",
-              ),
-            ),
-          ],
-        ),
-      ],
-    ));
+    bodyLs.add(startgewichtTabelle);
 
     bodyLs.add(
       Column(
