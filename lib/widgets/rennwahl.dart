@@ -31,7 +31,7 @@ class _RennenWahlState extends State<RennenWahl> {
     if (wettkampfIdentifier == "all") {
       return fetchRennenAll();
     } else {
-      return fetchRennenAll();
+      return fetchRennenAll(wettkampf: wettkampfIdentifier);
     }
   }
 

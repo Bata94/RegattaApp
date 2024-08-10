@@ -13,6 +13,12 @@ class ZeitnahmeIndex extends StatelessWidget {
       LayoutGrid([
         NavBtn(
           context,
+          Icons.assignment,
+          "/zeitnahme/vorsort",
+          "Vorsortierung",
+        ),
+        NavBtn(
+          context,
           Icons.play_circle_fill_outlined,
           "/zeitnahme/start",
           "Startgericht",

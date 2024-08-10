@@ -6,7 +6,7 @@ import 'package:regatta_app/widgets/easy_future_builder.dart';
 class MeldungWahl extends StatefulWidget {
   final String rennId;
   final List<Meldung> meldungLS;
-  final void Function(String)? onTap;
+  final void Function(Meldung)? onTap;
   const MeldungWahl({
     super.key,
     required this.rennId,
@@ -42,7 +42,7 @@ class _MeldungWahlState extends State<MeldungWahl> {
             subtitle:
                 "$athletenStr\nStartberechtigt: ${meldung.isStartBer()} - Leichtgewicht: ${meldung.isLeichtGW()} - Abgemeldet: $abgemeldet",
             onTap: () =>
-                widget.onTap != null ? widget.onTap!(meldung.uuid) : null,
+                widget.onTap != null ? widget.onTap!(meldung) : null,
           );
         },
       );

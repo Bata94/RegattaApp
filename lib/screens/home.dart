@@ -25,7 +25,7 @@ class Home extends StatelessWidget {
         ),
         NavBtn(
           context,
-          Icons.computer,
+          Icons.flag,
           "/ergebnisse",
           "Ergebnisse",
         ),

@@ -5,14 +5,14 @@ import 'package:regatta_app/widgets/clickable_listtile.dart';
 import 'package:regatta_app/widgets/easy_future_builder.dart';
 
 class AbteilungWahl extends StatefulWidget {
-  final String rennId;
+  final String rennUuid;
   final Function(String)? onMeldungTap;
   final Function(int)? onAbteilungTap;
   final bool getStarted;
   final bool meldungInfo;
   const AbteilungWahl({
     super.key,
-    required this.rennId,
+    required this.rennUuid,
     this.onMeldungTap,
     this.onAbteilungTap,
     this.getStarted = true,
@@ -24,15 +24,22 @@ class AbteilungWahl extends StatefulWidget {
 }
 
 class _AbteilungWahlState extends State<AbteilungWahl> {
-  Future<Rennen> fetchData(String rennId) async {
+  Future<Rennen> fetchData(String rennUuid) async {
     return await fetchRennen(
-      widget.rennId,
+      widget.rennUuid,
     );
   }
 
   List<Widget> _body(Rennen rennen) {
     List<Widget> abtWidLs = [];
-    List<Widget> retLs = [];
+    List<Widget> retLs = [
+      Text("Rennen: ${rennen.nummer} - ${rennen.bezeichnung}", style: Theme.of(context).textTheme.headlineLarge),
+      const Divider(
+        height: 16,
+        indent: 8,
+        endIndent: 8,
+      ),
+    ];
     int aktAbteilung = 0;
 
     for (Meldung meldung in rennen.meldungen) {
@@ -100,7 +107,7 @@ class _AbteilungWahlState extends State<AbteilungWahl> {
   Widget build(BuildContext context) {
     return easyFutureBuilder(
       fetchData(
-        widget.rennId,
+        widget.rennUuid,
       ),
       (data) {
         Rennen rennen = data as Rennen;

@@ -20,6 +20,8 @@ import 'package:regatta_app/screens/leiter/startnummernvergabe.dart';
 import 'package:regatta_app/screens/leiter/zeitplan.dart';
 import 'package:regatta_app/screens/login.dart';
 import 'package:regatta_app/screens/startlisten/index.dart';
+import 'package:regatta_app/screens/startlisten/rennen.dart';
+import 'package:regatta_app/screens/startlisten/startliste.dart';
 import 'package:regatta_app/screens/zeitnahme/index.dart';
 import 'package:regatta_app/services/navigation.dart';
 import 'package:regatta_app/services/shared_preference.dart';
@@ -85,6 +87,10 @@ class MyApp extends StatelessWidget {
           '/zeitnahme': (context) => const ZeitnahmeIndex(),
 
           '/startlisten': (context) => const StartlistenIndex(),
+          '/startlisten/langstrecke': (context) => const Startliste(wettkampf: StartlisteWettkampf.langstrecke),
+          '/startlisten/slalom': (context) => const Startliste(wettkampf: StartlisteWettkampf.slalom),
+          '/startlisten/kurzstrecke': (context) => const Startliste(wettkampf: StartlisteWettkampf.kurzstrecke),
+          '/startlisten/staffel': (context) => const Startliste(wettkampf: StartlisteWettkampf.staffel),
 
           '/ergebnisse': (context) => const ErgebnisseIndex(),
 
