@@ -4,6 +4,21 @@ import 'package:regatta_app/models/rennen.dart';
 import 'package:regatta_app/models/verein.dart';
 import 'package:regatta_app/services/api_request.dart';
 
+Future<List<Athlet>> fetchAllAthletsByVerein(String vereinUuid) async {
+  ApiResponse res = await ApiRequester(baseUrl: ApiUrl.vereinAthlet).get(param: vereinUuid);
+
+  if (!res.status) {
+    throw Exception(res.msg);
+  }
+
+  List<Athlet> athLs = [];
+  for (Map<String, dynamic> a in res.data) {
+    athLs.add(Athlet.fromJson(a));
+  }
+
+  return athLs;
+}
+
 Future<Athlet> createAthlet(String vereinUuid, vorname, nachname, jahrgang, bool geschlechtMaennlich, startberechtigt) async {
   Map<String, dynamic> body = {
     "verein_uuid": vereinUuid,

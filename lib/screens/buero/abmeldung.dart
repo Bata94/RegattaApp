@@ -21,18 +21,9 @@ class _BueroAbmeldungState extends State<BueroAbmeldung> {
   Verein? verein;
   List<Meldung> meldungen = [];
 
-  void abmeldungDialog(String uuid) async {
-    Meldung? meld;
+  void abmeldungDialog(Meldung meld) async {
     String vereinName = "unknown";
 
-    for (Meldung meldung in meldungen) {
-      if (meldung.uuid == uuid) {
-        meld = meldung;
-      }
-    }
-    if (meld == null) {
-      throw Exception("Meldungs UUID nicht in Meldungsliste! Dies kann eigenltich nicht passieren");
-    }
     if (meld.verein != null) {
       vereinName = meld.verein!.name;
     }
@@ -45,7 +36,7 @@ class _BueroAbmeldungState extends State<BueroAbmeldung> {
 
     if (confirm) {
       dialogLoading(context);
-      ApiResponse res = await postAbmeldung(uuid);
+      ApiResponse res = await postAbmeldung(meld.uuid);
       if (!res.status) {
         Navigator.of(context).pop();
         await Future.delayed(const Duration(milliseconds: 50));
@@ -85,7 +76,7 @@ class _BueroAbmeldungState extends State<BueroAbmeldung> {
           return MeldungWahl(
             rennId: "Meldungen für ${verein!.kuerzel}",
             meldungLS: meldungen,
-            onTap: (uuid) => abmeldungDialog(uuid),
+            onTap: (meld) => abmeldungDialog(meld),
           );
         },
       );

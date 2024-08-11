@@ -7,7 +7,9 @@ import 'package:regatta_app/screens/admin/theme_show.dart';
 import 'package:regatta_app/screens/buero/abmeldung.dart';
 import 'package:regatta_app/screens/buero/athlet_anlegen.dart';
 import 'package:regatta_app/screens/buero/index.dart';
+import 'package:regatta_app/screens/buero/nachmeldung.dart';
 import 'package:regatta_app/screens/buero/startberechtigung.dart';
+import 'package:regatta_app/screens/buero/ummeldung.dart';
 import 'package:regatta_app/screens/buero/waage.dart';
 import 'package:regatta_app/screens/ergebnisse/index.dart';
 import 'package:regatta_app/screens/home.dart';
@@ -20,7 +22,6 @@ import 'package:regatta_app/screens/leiter/startnummernvergabe.dart';
 import 'package:regatta_app/screens/leiter/zeitplan.dart';
 import 'package:regatta_app/screens/login.dart';
 import 'package:regatta_app/screens/startlisten/index.dart';
-import 'package:regatta_app/screens/startlisten/rennen.dart';
 import 'package:regatta_app/screens/startlisten/startliste.dart';
 import 'package:regatta_app/screens/zeitnahme/index.dart';
 import 'package:regatta_app/services/navigation.dart';
@@ -104,6 +105,8 @@ class MyApp extends StatelessWidget {
 
           '/buero': (context) => const BueroIndex(),
           '/buero/abmeldung': (context) => const BueroAbmeldung(),
+          '/buero/ummeldung': (context) => const BueroUmmeldung(),
+          '/buero/nachmeldung': (context) => const BueroNachmeldung(),
           '/buero/waage': (context) => const BueroWaage(),
           '/buero/startberechtigung': (context) => const BueroStartberechtigung(),
           '/buero/athletAnlegen': (context) => const BueroAthletAnlegen(),

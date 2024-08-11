@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:regatta_app/models/rennen.dart';
 import 'package:regatta_app/models/athlet.dart';
 import 'package:regatta_app/models/verein.dart';
@@ -15,6 +16,30 @@ Future<List<Meldung>> fetchMedlungForVerein(String vereinUuid) async {
   }
 
   return retLs;
+}
+
+class AthletPosition {
+  final String uuid;
+  final String position;
+
+  AthletPosition(this.uuid, this.position);
+}
+
+Future<Meldung> postNachmeldung(String vereinUuid, rennenUuid, bool doppeltesMeldeentgeldBefreiung, List<AthletPosition> athletenLs) async {
+  Map<String, dynamic> body = {
+    "verein_uuid": vereinUuid,
+    "rennen_uuid": rennenUuid,
+    "doppeltes_meldentgeld_befreiung": doppeltesMeldeentgeldBefreiung,
+    "athleten": athletenLs.map((a) => {"uuid": a.uuid, "position": a.position}).toList(),
+  };
+
+  ApiResponse res = await ApiRequester(baseUrl: ApiUrl.nachmeldung).post(body: body);
+
+  if (!res.status) {
+    throw Exception(res.msg);
+  }
+
+  return Meldung.fromJson(res.data);
 }
 
 Future<ApiResponse> postAbmeldung(String uuid) async {

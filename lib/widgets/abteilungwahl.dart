@@ -24,6 +24,7 @@ class AbteilungWahl extends StatefulWidget {
 }
 
 class _AbteilungWahlState extends State<AbteilungWahl> {
+  // BUG: Nachmeldungen werden nicht richtig angezeigt (scheinbar, wenn Abteilung und oder Bahn = 0!)
   Future<Rennen> fetchData(String rennUuid) async {
     return await fetchRennen(
       widget.rennUuid,
@@ -40,7 +41,7 @@ class _AbteilungWahlState extends State<AbteilungWahl> {
         endIndent: 8,
       ),
     ];
-    int aktAbteilung = 0;
+    int aktAbteilung = -1;
 
     for (Meldung meldung in rennen.meldungen) {
       if (aktAbteilung < meldung.abteilung!) {
