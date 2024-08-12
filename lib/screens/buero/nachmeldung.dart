@@ -41,8 +41,7 @@ class _BueroNachmeldungState extends State<BueroNachmeldung> {
       return;
     }
     Navigator.of(context).pop();
-    // TODO: Show set Startnummer
-    dialogOkay(context, "Meldung erfolgreich angelegt! (${newMeld.uuid})\nSetzung muss noch manuell angepasst werden!");
+    dialogOkay(context, "Meldung erfolgreich angelegt! (${newMeld.uuid})\nStartnummer ist: ${newMeld.startNr}\nAbteilung: ${newMeld.abteilung} - Bahn: ${newMeld.bahn}\nSollte Bahn: 1 gezeigt werden, sollte die Setzung manuell angepasst werden!");
 
     setState(() {
       athMap = {};
@@ -140,6 +139,8 @@ class _BueroNachmeldungState extends State<BueroNachmeldung> {
       }
 
       return Container(
+        width: MediaQuery.of(context).size.width * .95,
+        padding: const EdgeInsets.symmetric(vertical: 8),
         decoration: BoxDecoration(
           border: Border.all(),
         ),
