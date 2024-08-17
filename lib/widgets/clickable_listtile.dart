@@ -4,11 +4,13 @@ class ClickableListTile extends StatelessWidget {
   final String title;
   final String subtitle;
   final Function()? onTap;
+  final Color? bgColor;
   const ClickableListTile({
     super.key,
     required this.title,
     this.subtitle = "",
     this.onTap,
+    this.bgColor,
   });
 
   @override
@@ -43,6 +45,7 @@ class ClickableListTile extends StatelessWidget {
       padding: const EdgeInsets.all(16.0),
       margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
       decoration: BoxDecoration(
+        color: bgColor,
         border: Border.all(
           color: Colors.black45,
         ),

@@ -24,6 +24,21 @@ class AthletPosition {
   AthletPosition(this.uuid, this.position);
 }
 
+Future<Meldung> postUmmeldung(String meldUuid, List<AthletPosition> athletenLs) async {
+  Map<String, dynamic> body = {
+    "meldung_uuid": meldUuid,
+    "athleten": athletenLs.map((a) => {"uuid": a.uuid, "position": a.position}).toList(),
+  };
+
+  ApiResponse res = await ApiRequester(baseUrl: ApiUrl.ummeldung).post(body: body);
+
+  if (!res.status) {
+    throw Exception(res.msg);
+  }
+
+  return Meldung.fromJson(res.data);
+}
+
 Future<Meldung> postNachmeldung(String vereinUuid, rennenUuid, bool doppeltesMeldeentgeldBefreiung, List<AthletPosition> athletenLs) async {
   Map<String, dynamic> body = {
     "verein_uuid": vereinUuid,

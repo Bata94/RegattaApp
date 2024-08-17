@@ -32,6 +32,7 @@ class ApiUrl {
   static const rennen = "$v1Url/rennen";
 
   static const meldung = "$v1Url/meldung";
+  static const ummeldung = "$v1Url/meldung/ummeldung";
   static const nachmeldung = "$v1Url/meldung/nachmeldung";
   static const meldungForVerein = "$v1Url/meldung/verein";
 
