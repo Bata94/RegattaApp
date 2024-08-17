@@ -79,13 +79,12 @@ class Rennen {
 
   factory Rennen.fromJson(Map<String, dynamic> json) {
     List<Meldung> lsMeld = [];
-    if (json.containsKey('meldungen')) {
+    if (json.containsKey('meldungen') && json['meldungen'] != null && json['meldungen'].isNotEmpty) {
       for (var meld in json['meldungen']) {
         lsMeld.add(Meldung.fromJson(meld));
       }
+      lsMeld.sort((a, b) => a.setzGewichtung().compareTo(b.setzGewichtung()));
     }
-
-    lsMeld.sort((a, b) => a.setzGewichtung().compareTo(b.setzGewichtung()));
 
     Rennen newRennen = Rennen(
       uuid: json['uuid'],

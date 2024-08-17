@@ -24,7 +24,7 @@ class _BueroStartberechtigungState extends State<BueroStartberechtigung> {
   List<AthletWithFirstRace> athletLs = [];
 
 
-  void waageDialog(AthletWithFirstRace athletWithFirstRace) {
+  void startberDialog(AthletWithFirstRace athletWithFirstRace) {
       showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -112,7 +112,7 @@ class _BueroStartberechtigungState extends State<BueroStartberechtigung> {
     }
 
     return AthletWithFirstRaceWahl(
-      onTap: (ath) => waageDialog(ath),
+      onTap: (ath) => startberDialog(ath),
       athletLs: athletLs,
     );
   }

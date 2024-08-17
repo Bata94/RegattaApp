@@ -87,7 +87,7 @@ class Athlet {
 
   factory Athlet.fromJson(Map<String, dynamic> json) {
     List<Meldung> lsMeld = []; 
-    if (json.containsKey("meldungen")) {
+    if (json.containsKey("meldungen") && json['meldungen'] != null && json['meldungen'].isNotEmpty) {
       for (var meld in json['meldungen']) {
         Meldung addMeld = Meldung.fromJson(meld);
         lsMeld.add(addMeld);
@@ -113,7 +113,7 @@ class Athlet {
       gewicht: gewicht,
       rolle: json['rolle'],
       position: json['position'],
-      verein: json.containsKey("verein") ? Verein.fromJson(json['verein']) : null,
+      verein: json.containsKey("verein") && json['verein'] != null ? Verein.fromJson(json['verein']) : null,
       meldungen: lsMeld,
     );
   }
@@ -130,7 +130,7 @@ class AthletWithFirstRace {
 
   factory AthletWithFirstRace.fromJson(Map<String, dynamic> json) {
     return AthletWithFirstRace(
-      athlet: Athlet.fromJson(json['athlet']),
+      athlet: Athlet.fromJson(json),
       firstRace: Rennen.fromJson(json['erstes_rennen']),
     );
   }

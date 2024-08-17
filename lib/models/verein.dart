@@ -36,7 +36,7 @@ Future<List<VereinWithAthleten>> fetchAllMissWaageByVerein() async {
       athleten.add(AthletWithFirstRace.fromJson(a));
     }
     retLs.add(VereinWithAthleten(
-      verein: Verein.fromJson(d['verein']),
+      verein: Verein.fromJson(d),
       athleten: athleten,
     ));
   }
@@ -57,7 +57,7 @@ Future<List<VereinWithAthleten>> fetchAllMissStartberechtigungByVerein() async {
       athleten.add(AthletWithFirstRace.fromJson(a));
     }
     retLs.add(VereinWithAthleten(
-      verein: Verein.fromJson(d['verein']),
+      verein: Verein.fromJson(d),
       athleten: athleten,
     ));
   }

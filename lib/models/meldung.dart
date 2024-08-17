@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:regatta_app/models/rennen.dart';
 import 'package:regatta_app/models/athlet.dart';
 import 'package:regatta_app/models/verein.dart';
@@ -172,7 +171,7 @@ class Meldung {
 
   factory Meldung.fromJson(Map<String, dynamic> json) {
     List<Athlet> athletLs = [];
-    if (json.containsKey("athleten")) {
+    if (json.containsKey("athleten") && json['athleten'] != null && json['athleten'].isNotEmpty) {
       for (Map<String, dynamic> athletMap in json['athleten']) {
         athletLs.add(Athlet.fromJson(athletMap));
       }
@@ -194,8 +193,8 @@ class Meldung {
       rennenUuid: json['rennen_uuid'] ??= "",
       vereinUuid: json['verein_uuid'] ??= "",
       athlets: athletLs,
-      verein: json.containsKey("verein") ? Verein.fromJson(json['verein']) : null,
-      rennen: json.containsKey("rennen") ? Rennen.fromJson(json['rennen']) : null,
+      verein: json.containsKey("verein") && json['verein'] != null ? Verein.fromJson(json['verein']) : null,
+      rennen: json.containsKey("rennen") && json['rennen'] != null ? Rennen.fromJson(json['rennen']) : null,
     );
   }
 }

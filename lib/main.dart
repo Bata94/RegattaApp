@@ -48,8 +48,10 @@ class MyApp extends StatelessWidget {
         title: 'MRG Regatta App',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.blue,
+            // seedColor: Colors.blue,
+            seedColor: const Color.fromRGBO(34, 79, 170, 1.0),
             brightness: Brightness.light,
+            // dynamicSchemeVariant: DynamicSchemeVariant.fidelity,
           ),
           useMaterial3: true,
         ),
