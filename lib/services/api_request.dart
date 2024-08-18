@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:regatta_app/models/user.dart';
@@ -47,6 +49,9 @@ class ApiUrl {
   static const setZeitplan = "$v1Url/leitung/setzeitplan";
   static const setStartnummern = "$v1Url/leitung/setstartnummern";
   static const postSetzungLs = "$v1Url/meldung/updateSetzungBatch";
+  static const listMeldeergebnis = "$v1Url/leitung/meldeergebnis/list";
+  static const createMeldeergebnis = "$v1Url/leitung/meldeergebnis";
+  static const downloadMeldeergebnis = "$v1Url/leitung/meldeergebnis/<param>";
 }
 
 class ApiResponse {
@@ -199,6 +204,50 @@ class ApiRequester{
     }
 
     return parseApiResponse(res);
+  }
+
+  Future<Uint8List?> downloadFile(String param) async {
+    Uri uri = parseUri(baseUrl, param: param); 
+    Map<String, String> reqHeaders = await setHeaders();
+    http.Response res;
+
+    try {
+      res = await http.get(
+        uri,
+        headers: reqHeaders,
+      ).timeout(Duration(seconds: timeoutSec));
+    } catch (e) {
+      debugPrint(e.toString());
+      return null;
+    }
+    
+    if (res.statusCode >= 400) {
+      return null;
+    }
+ 
+    return res.bodyBytes;
+  }
+   
+  Future<Uint8List?> downloadFilePost() async {
+    Uri uri = parseUri(baseUrl); 
+    Map<String, String> reqHeaders = await setHeaders();
+    http.Response res;
+
+    try {
+      res = await http.post(
+        uri,
+        headers: reqHeaders,
+      ).timeout(Duration(seconds: timeoutSec));
+    } catch (e) {
+      debugPrint(e.toString());
+      return null;
+    }
+    
+    if (res.statusCode >= 400) {
+      return null;
+    }
+ 
+    return res.bodyBytes;
   }
 
   Future<ApiResponse> uploadFile(File file) async {
