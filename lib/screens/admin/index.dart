@@ -17,6 +17,12 @@ class AdminIndex extends StatelessWidget {
             "/admin/themeshow",
             "ThemeShowCase",
           ),
+          NavBtn(
+            context,
+            Icons.question_mark,
+            "/admin/test",
+            "TestPage",
+          ),
         ],
       ),
     );
