@@ -30,10 +30,12 @@ class _LeitungMeldeergebnisState extends State<LeitungMeldeergebnis> {
     }
 
     List<String> ret = [];
-    for (var d in res.data.reversed) {
-      ret.add(d.toString());
-    }
+    if (res.data != null && !res.data.isEmpty) {
+      for (var d in res.data.reversed) {
+        ret.add(d.toString());
+      }
 
+    }
     return ret;
   }
 
@@ -98,6 +100,13 @@ class _LeitungMeldeergebnisState extends State<LeitungMeldeergebnis> {
   }
 
   Widget fileListWidget() {
+    if (fileLs.isEmpty) {
+      return const Center(
+        child: Text(
+          "Noch kein Meldeergebnis erstellt!\nUm eins zu erstellen klicken Sie den Add-Button am unteren rechten Bildschirmrand.",
+        ),
+      );
+    }
     return ListView.builder(
       itemCount: fileLs.length,
       itemBuilder: (context, int i) => ClickableListTile(

@@ -87,6 +87,9 @@ class _AdminTestState extends State<AdminTest> {
 
           for (VereinWithAthleten verein in data) {
             vereinWidgets.add(_infoEntryContainer(verein.verein.name, "${verein.athleten.length} Athleten fehlend", () {}));
+            for (AthletWithFirstRace ath in verein.athleten) {
+              ath.athlet.verein = verein.verein;
+            }
             athletenLs.addAll(verein.athleten);
           }
 
@@ -95,7 +98,7 @@ class _AdminTestState extends State<AdminTest> {
           int i = 0;
           int athLimit = 20;
           for (AthletWithFirstRace ath in athletenLs) {
-            athletWidgets.add(_infoEntryContainer(ath.athlet.toString(), "Erster Start: ${ath.firstRace.tag.toUpperCase()} ${ath.firstRace.startZeit} Uhr", () {}));
+            athletWidgets.add(_infoEntryContainer("${ath.athlet.verein?.kuerzel} - ${ath.athlet}", "Erster Start: ${ath.firstRace.tag.toUpperCase()} ${ath.firstRace.startZeit} Uhr", () {}));
             i++;
             if (i >= athLimit) {
               break;
@@ -165,6 +168,9 @@ class _AdminTestState extends State<AdminTest> {
 
           for (VereinWithAthleten verein in data) {
             vereinWidgets.add(_infoEntryContainer(verein.verein.name, "${verein.athleten.length} Athleten fehlend", () {}));
+            for (AthletWithFirstRace ath in verein.athleten) {
+              ath.athlet.verein = verein.verein;
+            }
             athletenLs.addAll(verein.athleten);
           }
 
@@ -173,7 +179,7 @@ class _AdminTestState extends State<AdminTest> {
           int i = 0;
           int athLimit = 20;
           for (AthletWithFirstRace ath in athletenLs) {
-            athletWidgets.add(_infoEntryContainer(ath.athlet.toString(), "Erster Start: ${ath.firstRace.tag.toUpperCase()} ${ath.firstRace.startZeit} Uhr", () {}));
+            athletWidgets.add(_infoEntryContainer("${ath.athlet.verein?.kuerzel} - ${ath.athlet}", "Erster Start: ${ath.firstRace.tag.toUpperCase()} ${ath.firstRace.startZeit} Uhr", () {}));
             i++;
             if (i >= athLimit) {
               break;
@@ -275,32 +281,17 @@ class _AdminTestState extends State<AdminTest> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               btn(
-                "Verein Meldewesen",
+                "Vereins Verwaltung",
                 () {},
               ),
-              btn(
-                "Verein Athletenverwaltung",
-                () {},
-              ),
-              btn(
-                "Verein Sonstiges",
-                () {},
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
               btn(
                 "Startnummern- wechsel",
                 () {},
-              ),
+                ),
               btn(
                 "Setzungs- änderung",
                 () {},
-              ),
-              spacer(),
+                ),
             ],
           ),
           // Row(

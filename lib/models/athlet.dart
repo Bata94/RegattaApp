@@ -64,7 +64,7 @@ class Athlet {
   final String? rolle;
   final int? position;
   final List<Meldung> meldungen;
-  final Verein? verein;
+  Verein? verein;
 
   Athlet({
     required this.uuid,
