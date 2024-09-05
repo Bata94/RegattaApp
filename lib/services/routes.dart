@@ -60,3 +60,139 @@ Map<String, Widget Function(BuildContext)> appRoutes = {
   '/admin/test': (context) => const AdminTest(),
 };
 
+class AppRoutesGenerator {
+  static Route<dynamic> generateRoute(RouteSettings settings) {
+    final dynamic args = settings.arguments;
+    switch (settings.name) {
+      // Root Layer
+      case '/':
+        return MaterialPageRoute(
+          builder: (_) => const Home(),
+        );
+      case '/home':
+        return MaterialPageRoute(
+          builder: (_) => const Home(),
+        );
+      case '/login':
+        return MaterialPageRoute(
+          builder: (_) => const Login(),
+        );
+      // Zeitnahme
+      case '/zeitnahme': 
+        return MaterialPageRoute(
+          builder: (_) => const ZeitnahmeIndex(),
+        );
+      // Startlisten
+      case '/startlisten': 
+        if (args != null && args is StartlisteWettkampf) {
+          return MaterialPageRoute(
+            builder: (_) => Startliste(wettkampf: args,),
+          );
+        }
+        return MaterialPageRoute(
+          builder: (_) => const StartlistenIndex(),
+        );
+      case '/startlisten/langstrecke': 
+        return MaterialPageRoute(
+          builder: (_) => const Startliste(wettkampf: StartlisteWettkampf.langstrecke),
+        );
+      case '/startlisten/slalom': 
+        return MaterialPageRoute(
+          builder: (_) => const Startliste(wettkampf: StartlisteWettkampf.slalom),
+        );
+      case '/startlisten/kurzstrecke': 
+        return MaterialPageRoute(
+          builder: (_) => const Startliste(wettkampf: StartlisteWettkampf.kurzstrecke),
+        );
+      case '/startlisten/staffel': 
+        return MaterialPageRoute(
+          builder: (_) => const Startliste(wettkampf: StartlisteWettkampf.staffel),
+        );
+      // Ergebnisse
+      case '/ergebnisse': 
+        return MaterialPageRoute(
+          builder: (_) => const ErgebnisseIndex(),
+        );
+      // Leitung
+      case '/leitung': 
+        return MaterialPageRoute(
+          builder: (_) => const LeitungIndex(),
+        );
+      case '/leitung/drvupload': 
+        return MaterialPageRoute(
+          builder: (_) => const DrvUpload(),
+        );
+      case '/leitung/setzungslosung': 
+        return MaterialPageRoute(
+          builder: (_) => const Setzungslosung(),
+        );
+      case '/leitung/setzunganpassen': 
+        return MaterialPageRoute(
+          builder: (_) => const SetzungChange(),
+        );
+      case '/leitung/startnummernvergabe': 
+        return MaterialPageRoute(
+          builder: (_) => const Startnummernvergabe(),
+        );
+      case '/leitung/pausen': 
+        return MaterialPageRoute(
+          builder: (_) => const Pausen(),
+        );
+      case '/leitung/zeitplan': 
+        return MaterialPageRoute(
+          builder: (_) => const Zeitplan(),
+        );
+      case '/leitung/meldeergebnis': 
+        return MaterialPageRoute(
+          builder: (_) => const LeitungMeldeergebnis(),
+        );
+      // Büro
+      case '/buero': 
+        return MaterialPageRoute(
+          builder: (_) => const BueroIndex(),
+        );
+      case '/buero/abmeldung': 
+        return MaterialPageRoute(
+          builder: (_) => const BueroAbmeldung(),
+        );
+      case '/buero/ummeldung': 
+        return MaterialPageRoute(
+          builder: (_) => const BueroUmmeldung(),
+        );
+      case '/buero/nachmeldung': 
+        return MaterialPageRoute(
+          builder: (_) => const BueroNachmeldung(),
+        );
+      case '/buero/waage': 
+        return MaterialPageRoute(
+          builder: (_) => const BueroWaage(),
+        );
+      case '/buero/startberechtigung': 
+        return MaterialPageRoute(
+          builder: (_) => const BueroStartberechtigung(),
+        );
+      case '/buero/athletAnlegen': 
+        return MaterialPageRoute(
+          builder: (_) => const BueroAthletAnlegen(),
+        );
+      // Admin
+      case '/admin': 
+        return MaterialPageRoute(
+          builder: (_) => const AdminIndex(),
+        );
+      case '/admin/themeshow': 
+        return MaterialPageRoute(
+          builder: (_) => const ThemeShowCase(),
+        );
+      case '/admin/test': 
+        return MaterialPageRoute(
+          builder: (_) => const AdminTest(),
+        );
+      // Def Route, maybe ErrorPage is better
+      default:
+        return MaterialPageRoute(
+          builder: (_) => const Home(),
+        );
+    }
+  }
+}
