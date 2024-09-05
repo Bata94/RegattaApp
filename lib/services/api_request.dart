@@ -10,9 +10,9 @@ import 'package:regatta_app/provider/auth.dart';
 import 'package:regatta_app/services/navigation.dart';
 
 class ApiUrl {
-  // static const localUrl = "http://192.168.80.20:8080/api";
+  static const localUrl = "http://192.168.80.20:8080/api";
   // static const localUrl = "http://localhost:8080/api";
-  static const localUrl = "http://10.0.2.2:8080/api";
+  // static const localUrl = "http://10.0.2.2:8080/api";
 
   static const baseUrl = localUrl;
 
