@@ -202,6 +202,7 @@ class _BueroNachmeldungState extends State<BueroNachmeldung> {
       );
     } else if (rennen == null) {
       return RennenWahl(
+        getEmpty: true,
         onTap: (r) => setState(() => rennen = r),
       );
     } else {

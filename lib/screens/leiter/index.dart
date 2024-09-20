@@ -53,18 +53,18 @@ class LeitungIndex extends StatelessWidget {
           "/leitung/meldeergebnis",
           "Meldeergebnis PDF",
         ),
-        NavBtn(
-          context,
-          Icons.school,
-          "/leitung/urkunden",
-          "Urkunden PDF",
-        ),
-        NavBtn(
-          context,
-          Icons.social_distance,
-          "/leitung/rennabstand",
-          "Rennabst.",
-        ),
+        // NavBtn(
+        //   context,
+        //   Icons.school,
+        //   "/leitung/urkunden",
+        //   "Urkunden PDF",
+        // ),
+        // NavBtn(
+        //   context,
+        //   Icons.social_distance,
+        //   "/leitung/rennabstand",
+        //   "Rennabst.",
+        // ),
       ],
       ),
     );

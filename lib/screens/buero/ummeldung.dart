@@ -195,7 +195,7 @@ class _BueroUmmeldungState extends State<BueroUmmeldung> {
             meld.verein = verein;
           }
 
-          meldungen.removeWhere((meld) => meld.rennen!.bootsklasse == "1x");
+          // meldungen.removeWhere((meld) => meld.rennen!.bootsklasse == "1x");
           return MeldungWahl(
             rennId: "Meldungen für ${verein!.kuerzel}",
             meldungLS: meldungen,

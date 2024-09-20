@@ -23,12 +23,16 @@ import 'package:regatta_app/screens/login.dart';
 import 'package:regatta_app/screens/startlisten/index.dart';
 import 'package:regatta_app/screens/startlisten/startliste.dart';
 import 'package:regatta_app/screens/zeitnahme/index.dart';
+import 'package:regatta_app/screens/zeitnahme/start.dart';
+import 'package:regatta_app/screens/zeitnahme/ziel.dart';
 
 Map<String, Widget Function(BuildContext)> appRoutes = {
   '/home': (context) => const Home(),
   '/login': (context) => const Login(),
 
   '/zeitnahme': (context) => const ZeitnahmeIndex(),
+  '/zeitnahme/start': (context) => const ZeitnahmeStart(),
+  '/zeitnahme/ziel': (context) => const ZeitnahmeZiel(),
 
   '/startlisten': (context) => const StartlistenIndex(),
   '/startlisten/langstrecke': (context) => const Startliste(wettkampf: StartlisteWettkampf.langstrecke),

@@ -10,11 +10,15 @@ import 'package:regatta_app/provider/auth.dart';
 import 'package:regatta_app/services/navigation.dart';
 
 class ApiUrl {
-  static const localUrl = "http://192.168.80.20:8080/api";
+  static const protocol = "http://";
+  static const host = "10.0.2.2";
+  // static const host = "192.168.178.28";
+  static const port = 8080;
+  // static const localUrl = "http://192.168.80.20:8080/api";
   // static const localUrl = "http://localhost:8080/api";
-  // static const localUrl = "http://10.0.2.2:8080/api";
+  static const localUrl = "$protocol$host:$port";
 
-  static const baseUrl = localUrl;
+  static const baseUrl = "$localUrl/api";
 
   static const login = "$baseUrl/auth/login";
   static const logout = "$baseUrl/auth/logout";
@@ -52,6 +56,10 @@ class ApiUrl {
   static const listMeldeergebnis = "$v1Url/leitung/meldeergebnis/list";
   static const createMeldeergebnis = "$v1Url/leitung/meldeergebnis";
   static const downloadMeldeergebnis = "$v1Url/leitung/meldeergebnis/<param>";
+
+  static const zeitnahmeWSZiel = "$v1Url/zeitnahme/ziel";
+  static const zeitnahmePostStart = "$v1Url/zeitnahme/start";
+  static const zeitnahmeOpenStarts = "$v1Url/zeitnahme/openStarts";
 }
 
 class ApiResponse {

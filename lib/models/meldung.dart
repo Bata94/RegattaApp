@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:regatta_app/models/rennen.dart';
 import 'package:regatta_app/models/athlet.dart';
 import 'package:regatta_app/models/verein.dart';
@@ -46,6 +47,7 @@ Future<Meldung> postNachmeldung(String vereinUuid, rennenUuid, bool doppeltesMel
     "doppeltes_meldentgeld_befreiung": doppeltesMeldeentgeldBefreiung,
     "athleten": athletenLs.map((a) => {"uuid": a.uuid, "position": a.position}).toList(),
   };
+  debugPrint(body.toString());
 
   ApiResponse res = await ApiRequester(baseUrl: ApiUrl.nachmeldung).post(body: body);
 

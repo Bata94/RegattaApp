@@ -47,24 +47,24 @@ class BueroIndex extends StatelessWidget {
           "/buero/waage",
           "Waage",
         ),
-        NavBtn(
-          context,
-          Icons.money,
-          "/buero/startnummern",
-          "Startnr-Ausg",
-        ),
-        NavBtn(
-          context,
-          Icons.swap_horiz,
-          "/buero/startnummerwechseln",
-          "Startnr-Wechsel",
-        ),
-        NavBtn(
-          context,
-          Icons.calculate,
-          "/buero/kasse",
-          "Kasse",
-        ),
+        // NavBtn(
+        //   context,
+        //   Icons.money,
+        //   "/buero/startnummern",
+        //   "Startnr-Ausg",
+        // ),
+        // NavBtn(
+        //   context,
+        //   Icons.swap_horiz,
+        //   "/buero/startnummerwechseln",
+        //   "Startnr-Wechsel",
+        // ),
+        // NavBtn(
+        //   context,
+        //   Icons.calculate,
+        //   "/buero/kasse",
+        //   "Kasse",
+        // ),
       ],
       ),
     );

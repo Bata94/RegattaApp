@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:regatta_app/provider/auth.dart';
+import 'package:regatta_app/provider/zeitnahme_ziel.dart';
 import 'package:regatta_app/screens/home.dart';
 import 'package:regatta_app/services/navigation.dart';
 import 'package:regatta_app/screens/login.dart';
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => AuthProvider()),
+        ChangeNotifierProvider(create: (context) => ZeitnahmeZielProvider()),
       ],
       child: MaterialApp(
         navigatorKey: NavigationService.navigatorKey,

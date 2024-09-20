@@ -23,12 +23,12 @@ class Home extends StatelessWidget {
           "/startlisten",
           "Startlisten",
         ),
-        NavBtn(
-          context,
-          Icons.flag,
-          "/ergebnisse",
-          "Ergebnisse",
-        ),
+        // NavBtn(
+        //   context,
+        //   Icons.flag,
+        //   "/ergebnisse",
+        //   "Ergebnisse",
+        // ),
         NavBtn(
           context,
           Icons.person,
