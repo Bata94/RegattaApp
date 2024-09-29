@@ -1,10 +1,12 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:regatta_app/models/athlet.dart';
 import 'package:regatta_app/models/meldung.dart';
 import 'package:regatta_app/models/rennen.dart';
 import 'package:regatta_app/models/zeitnahme.dart';
+import 'package:regatta_app/screens/leiter/startnummernvergabe.dart';
 import 'package:regatta_app/services/audio_controller.dart';
 import 'package:regatta_app/widgets/abteilungwahl.dart';
 import 'package:regatta_app/widgets/base_layout.dart';
@@ -13,6 +15,7 @@ import 'package:regatta_app/widgets/loading_spinner.dart';
 import 'package:regatta_app/widgets/meldungwahl.dart';
 import 'package:regatta_app/widgets/nav_bar.dart';
 import 'package:regatta_app/widgets/rennwahl.dart';
+import 'package:uuid/uuid.dart';
 
 class ZeitnahmeStart extends StatefulWidget {
   const ZeitnahmeStart({super.key});
@@ -452,6 +455,8 @@ class _ZeitnahmeStartState extends State<ZeitnahmeStart> {
 
       List<Meldung> choosableMeldungen = [];
 
+      debugPrint("Aktuelles Rennen: $aktRennen");
+
       for (Meldung meld in aktRennen!.meldungen) {
         bool inBahnen = false;
 
@@ -496,30 +501,101 @@ class _ZeitnahmeStartState extends State<ZeitnahmeStart> {
       showDialog(
         context: context,
         builder: (context) {
+          for (var meld in choosableMeldungen) {
+            meld.rennen = aktRennen!;            
+          }
+
           return Dialog(
             child: Scaffold(
                 appBar: NavBar(
                   context,
                   title: "Meldung auswählen",
                 ),
-                body: MeldungWahl(
-                  rennId: aktRennen!.uuid,
-                  meldungLS: choosableMeldungen,
-                  onTap: (meldung) {
-                    Meldung? choosenMeldung;
+                body: Column(
+                  children: [
+                  SizedBox(
+                    height: 60,
+                    width: double.infinity,
+                    child: Center(
+                      child: ElevatedButton(
+                        child: const Text("Manuelle Eingabe"),
+                        onPressed: () async {
+                        // Manuelle Eingabe 
+                        Navigator.of(context).pop();
+                        showDialog(context: context, builder: (context) {
+                            TextEditingController startNummerController = TextEditingController();
+                            var uuid = Uuid();
+                            uuid.v4();
 
-                    for (Meldung meld in choosableMeldungen) {
-                      if (meldung.uuid == meld.uuid) {
-                        choosenMeldung = meld;
-                      }
-                    }
-
-                    setState(() {
-                      bahnenMap[bahnNumber - 1] = choosenMeldung;
-                    });
-
-                    Navigator.of(context).pop();
-                  },
+                            return AlertDialog(
+                                title: const Text("Manuelle Eingabe:", textAlign: TextAlign.center,),
+                                content: SizedBox(
+                                  height: 100,
+                                  width: 400,
+                                  child: TextField(
+                                    autofocus: true,
+                                    controller: startNummerController,
+                                    keyboardType: TextInputType.number,
+                                    ),
+                                  ),
+                                actions: [
+                                ElevatedButton(
+                                  onPressed: () => Navigator.of(context).pop(),
+                                  child: const Text(
+                                    "Abbrechen",
+                                    ),
+                                  ),
+                                ElevatedButton(
+                                  onPressed: () async {
+                                    Meldung meld = Meldung(
+                                      uuid: uuid.toString(), 
+                                      startNr: int.parse(startNummerController.text),
+                                      rennNr: '0',
+                                      abgemeldet: false,
+                                      dns: false,
+                                      dsq: false,
+                                      dnf: false,
+                                      meldungstyp: "temp",
+                                      vereinUuid: "",
+                                      rennenUuid: "",
+                                    );
+                                    setState(() {
+                                      bahnenMap[bahnNumber - 1] = meld;
+                                    });
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text("Bestaetigen"),
+                                  ),
+                                ],
+                              );
+                            }
+                          );
+                        },
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: MeldungWahl(
+                        rennId: aktRennen!.uuid,
+                        meldungLS: choosableMeldungen,
+                        onTap: (meldung) {
+                          Meldung? choosenMeldung;
+                      
+                          for (Meldung meld in choosableMeldungen) {
+                            if (meldung.uuid == meld.uuid) {
+                              choosenMeldung = meld;
+                            }
+                          }
+                      
+                          setState(() {
+                            bahnenMap[bahnNumber - 1] = choosenMeldung;
+                          });
+                      
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ),
+                  ],
                 )),
           );
         },
@@ -621,8 +697,8 @@ class _ZeitnahmeStartState extends State<ZeitnahmeStart> {
       if (meldung != null) {
         List<TableRow> tableRowLS = [
           tableRow("Start-Nr:", meldung.startNr.toString()),
-          tableRow("Verein:", meldung.verein!.kuerzel),
-          tableRow("", meldung.verein!.kurzform),
+          tableRow("Verein:", meldung.verein == null ? "unknown" : meldung.verein!.kuerzel),
+          tableRow("", meldung.verein == null ? "unknown" : meldung.verein!.kurzform),
           tableRow("Startber.:", meldung.isStartBer()),
           tableRow("LGW:", meldung.isLeichtGW()),
           // TODO: Add Teilnehmer
@@ -632,14 +708,16 @@ class _ZeitnahmeStartState extends State<ZeitnahmeStart> {
         int i = 1;
 
         // TODO: Teilnehmer Reihenfolge/Positionen
-        for (Athlet teilnehmer in meldung.athlets.reversed) {
-          tableRowLS.add(
-            tableRow(
-              i == 5 ? "Stm:" : "# $i:",
-              teilnehmer.toString(),
-            ),
-          );
-          i++;
+        if (meldung.athlets.isNotEmpty) {
+          for (Athlet teilnehmer in meldung.athlets.reversed) {
+            tableRowLS.add(
+              tableRow(
+                i == 5 ? "Stm:" : "# $i:",
+                teilnehmer.toString(),
+              ),
+            );
+            i++;
+          }
         }
 
         body = Table(

@@ -38,7 +38,8 @@ class _MeldungWahlState extends State<MeldungWahl> {
 
           // TODO: Add If-Statement to catch Meldungen with Endzeit
           return ClickableListTile(
-            title: "Start-Nr: ${meldung.startNr} | Rennen: ${meldung.rennen!.nummer} - ${meldung.rennen!.bezeichnung} | ${meldung.verein!.name}",
+            title: "Start-Nr: ${meldung.startNr} | Rennen: ${meldung.rennen!.nummer} - ${meldung.rennen!.bezeichnung} | ${meldung.verein!.kuerzel}",
+            // title: "Start-Nr: ${meldung.startNr} | ${meldung.verein!.kuerzel}",
             subtitle:
                 "$athletenStr\nStartberechtigt: ${meldung.isStartBer()} - Leichtgewicht: ${meldung.isLeichtGW()} - Abgemeldet: $abgemeldet",
             onTap: () =>

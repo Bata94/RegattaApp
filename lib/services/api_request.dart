@@ -11,9 +11,10 @@ import 'package:regatta_app/services/navigation.dart';
 
 class ApiUrl {
   static const protocol = "http://";
-  static const host = "10.0.2.2";
+  // static const host = "10.0.2.2";
   // static const host = "192.168.178.28";
-  static const port = 8080;
+  static const host = "192.168.80.20";
+  static const port = 8081;
   // static const localUrl = "http://192.168.80.20:8080/api";
   // static const localUrl = "http://localhost:8080/api";
   static const localUrl = "$protocol$host:$port";

@@ -169,11 +169,12 @@ class _ZeitnahmeZielState extends State<ZeitnahmeZiel> {
                                 TextEditingController startNummerController = TextEditingController();
 
                                 return AlertDialog(
-                                    title: const Text("Manuelle Eingabe:"),
+                                    title: const Text("Manuelle Eingabe:", textAlign: TextAlign.center,),
                                     content: SizedBox(
-                                      height: 400,
-                                      width: 600,
+                                      height: 100,
+                                      width: 400,
                                       child: TextField(
+                                        autofocus: true,
                                         controller: startNummerController,
                                         keyboardType: TextInputType.number,
                                         ),
@@ -459,9 +460,7 @@ class _ZeitnahmeZielState extends State<ZeitnahmeZiel> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const SizedBox(
-                  width: 2,
-                ),
+                Text(zeitnahmeZielProvider.websocketState, style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: zeitnahmeZielProvider.websocketState.contains("Connected") ? Colors.green : Colors.red)),
                 Row(
                   children: [
                     ElevatedButton(

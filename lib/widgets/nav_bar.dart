@@ -15,6 +15,7 @@ class NavBar extends AppBar {
   }) : super(
     key: Key("appBar-$title"),
     toolbarHeight: height,
+    bottom: bottom,
     iconTheme: Theme.of(context).iconTheme.copyWith(color: Theme.of(context).colorScheme.onPrimary),
     backgroundColor: Theme.of(context).primaryColor,
     titleTextStyle: Theme.of(context).textTheme.displaySmall!.copyWith(color: Theme.of(context).colorScheme.onPrimary),

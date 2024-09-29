@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';
+import 'dart:isolate';
 import 'package:flutter/material.dart';
 import 'package:regatta_app/models/zeitnahme.dart';
 import 'package:regatta_app/services/api_request.dart';
@@ -23,6 +24,8 @@ class ZeitnahmeZielProvider with ChangeNotifier {
     path: "api/v1/zeitnahme/ziel",
   );
   int curLatency = 0;
+  String websocketState = "connecting...";
+  DateTime? lastPong;
 
   UnmodifiableListView<Zeitnahme> get zieleinlaufLS =>
       UnmodifiableListView(_zieleinlaufLS);
@@ -36,7 +39,68 @@ class ZeitnahmeZielProvider with ChangeNotifier {
     _channelStream = _channel.stream;
     _websocketInitialized = true;
 
-    _channelStream.listen(computeWSMessage);
+    _channelStream.listen(
+      computeWSMessage,
+      onError: (err) {
+        debugPrint("Error in WebSocket: $err");
+        throw err;
+      },
+    );
+
+    _startHelthcheck();
+  }
+
+  void _startHelthcheck() async {
+    await Future.delayed(const Duration(milliseconds: 1000));
+    ensureOpenConnection();
+    await Future.delayed(const Duration(milliseconds: 1000));
+    bool ret = await _healthcheck();
+  }
+
+  Future<bool> _healthcheck() async {
+    bool wsAlive = true;
+    int interval = 2;
+    DateTime? lastCheckedPong;
+
+    while (wsAlive) {
+      debugPrint("Healthcheck");
+      DateTime now = DateTime.now();
+
+      Duration latency = Duration.zero;
+      if (lastPong != null) {
+        latency = now.difference(lastPong!);
+        debugPrint("latency $latency");
+        if (latency > Duration(seconds: interval * 2)) {
+          if (!websocketState.contains("Disconnected")) {
+            websocketState = "Disconnected!!!";
+
+            notifyListeners();
+          }
+          await Future.delayed(const Duration(milliseconds: 100));
+        } else {
+          if (lastCheckedPong == null || lastCheckedPong != lastPong) {
+            lastCheckedPong = lastPong;
+            curLatency = latency.inMilliseconds;
+
+            if (!websocketState.contains("Connected")) {
+              websocketState = "Connected Latency $curLatency ms";
+
+              notifyListeners();
+            }
+          }
+          await Future.delayed(Duration(seconds: interval));
+        }
+      }
+
+      if (lastPong == null) {
+        await Future.delayed(const Duration(milliseconds: 500));
+        ensureOpenConnection();
+      } else if (latency.inMilliseconds >= 500) {
+        ensureOpenConnection();
+      }
+    }
+
+    return true;
   }
 
   void closeConnection() {
@@ -67,6 +131,7 @@ class ZeitnahmeZielProvider with ChangeNotifier {
     debugPrint(wsMsg.toString());
 
     if (wsMsg == "pong") {
+      lastPong = DateTime.now();
       return;
     }
 
